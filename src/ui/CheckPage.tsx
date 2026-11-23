@@ -12,8 +12,9 @@ import { getLedger, subscribe } from '../core/routing/ledger';
 import { checkOnDeviceStatus, type OnDeviceStatus } from '../core/ai/onDevice';
 import { isFirebaseConfigured } from '../firebase/config';
 import { getFirebase } from '../firebase/init';
-import { Card, FactChips, SourceBadge, StatusDot, STATUS_STYLE } from './shared';
+import { Card, FactChips, SourceBadge, StatusDot } from './shared';
 import LetterPanel from './LetterPanel';
+import { IconArrow, IconChevron, IconPlay } from './icons';
 
 type Origin = 'on_device' | 'in_cloud' | 'manual' | 'sample';
 
@@ -142,29 +143,29 @@ export default function CheckPage({ trip, setTrip, dossier, setDossier, lib, rat
       <Card>
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h1 className="text-xl font-bold text-gray-900">Check my dossier</h1>
+            <h1 className="text-5xl leading-[0.95] font-medium tracking-[-0.03em] text-gray-900 sm:text-6xl">Check my dossier</h1>
             <p className="mt-1 text-sm text-gray-600">
               {DESTINATIONS[trip.destination]} · {PURPOSES[trip.purpose]} · {pretty(trip.entryDate)} → {pretty(trip.exitDate)}{' '}
-              <a href="#/trip" className="text-emerald-700 underline">
+              <a href="#/trip" className="text-stamp underline">
                 edit trip
               </a>
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
-            <button onClick={() => loadSample(true)} disabled={!!busy} className="rounded-full bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-800 disabled:opacity-50">
-              ▶ Try the sample dossier
+            <button onClick={() => loadSample(true)} disabled={!!busy} className="inline-flex items-center gap-2 bg-stamp px-5 py-3 text-sm font-semibold text-white hover:bg-stamp-dark disabled:opacity-50">
+              <IconPlay size={14} /> Try the sample dossier
             </button>
-            <button onClick={downloadSamples} className="rounded-full border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50">
+            <button onClick={downloadSamples} className="border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50">
               Download sample PDFs
             </button>
-            <button onClick={() => { setDossier({}); setOrigins({}); }} className="rounded-full px-3 py-2 text-sm text-gray-500 hover:bg-gray-100">
+            <button onClick={() => { setDossier({}); setOrigins({}); }} className="px-3 py-2 text-sm text-gray-500 hover:bg-gray-100">
               Clear
             </button>
           </div>
         </div>
-        <div className="mt-4 grid gap-3 rounded-xl bg-gray-50 p-3 text-xs text-gray-700 sm:grid-cols-3">
+        <div className="mt-4 grid gap-3 bg-gray-50 p-3 text-xs text-gray-700 sm:grid-cols-3">
           <p>
-            <strong>Gemini Nano:</strong> {nano === 'available' ? '✅ ready on this device' : nano === 'downloadable' || nano === 'downloading' ? '⬇ prepare it on the AI status page' : '❌ not available here'}
+            <strong>Gemini Nano:</strong> {nano === 'available' ? 'ready on this device' : nano === 'downloadable' || nano === 'downloading' ? 'prepare it on the AI status page' : 'not available here'}
           </p>
           <p>
             <strong>Privacy ledger:</strong> {deviceCalls} on-device · <span className={cloudCalls ? 'font-bold text-sky-700' : ''}>{cloudCalls} cloud</span> call(s)
@@ -175,18 +176,18 @@ export default function CheckPage({ trip, setTrip, dossier, setDossier, lib, rat
           </label>
         </div>
         {busy && <p className="mt-3 animate-pulse text-sm font-medium text-emerald-800">{busy}</p>}
-        {error && <p className="mt-3 rounded-lg bg-red-50 p-3 text-sm text-red-800">{error}</p>}
+        {error && <p className="mt-3 bg-red-50 p-3 text-sm text-red-800">{error}</p>}
       </Card>
 
       <div className="grid gap-6 lg:grid-cols-5">
         <div className="space-y-3 lg:col-span-2">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500">Your documents</h2>
+          <h2 className="text-lg font-semibold text-gray-500">Your documents</h2>
           {kinds.map((kind) => (
             <DocCard key={kind} kind={kind} facts={dossier[kind]} origin={origins[kind]} disabled={!!busy} onFile={(f) => onFile(kind, f)} onEdit={(facts) => setDoc(kind, facts, 'manual')} />
           ))}
         </div>
         <div className="space-y-3 lg:col-span-3">
-          <h2 className="text-sm font-bold uppercase tracking-wider text-gray-500">Result</h2>
+          <h2 className="text-lg font-semibold text-gray-500">Result</h2>
           <Score sum={sum} />
           {findings.map((f) => (
             <FindingCard key={f.id} f={f} lib={lib} ai={ai} />
@@ -204,7 +205,7 @@ function Score({ sum }: { sum: Record<Status, number> }) {
   const total = sum.pass + sum.warn + sum.fail + sum.missing;
   const ready = sum.fail === 0 && sum.missing === 0;
   return (
-    <div className={`rounded-2xl p-4 text-white shadow-sm ${ready ? 'bg-emerald-700' : sum.fail ? 'bg-red-700' : 'bg-gray-700'}`}>
+    <div className={`px-6 py-5 ${ready ? 'bg-emerald-700 text-white' : sum.fail ? 'bg-red-700 text-white' : 'bg-gray-100 text-gray-900'}`}>
       <p className="text-2xl font-bold">{ready ? 'Ready to submit' : sum.fail ? `${sum.fail} problem${sum.fail > 1 ? 's' : ''} to fix` : 'Add your documents'}</p>
       <p className="mt-1 text-sm opacity-90">
         {sum.pass}/{total} checks passed · {sum.warn} to double-check · {sum.missing} missing
@@ -234,26 +235,26 @@ function FindingCard({ f, lib, ai }: { f: Finding; lib: Library; ai: AI | null }
   }
 
   return (
-    <div className={`rounded-2xl border bg-white p-4 shadow-sm ${STATUS_STYLE[f.status].ring}`}>
+    <div className={`border-l-4 bg-white p-5 ${f.status === 'fail' ? 'border-red-700' : f.status === 'warn' ? 'border-amber-500' : f.status === 'pass' ? 'border-emerald-700' : 'border-gray-300'}`}>
       <div className="flex gap-3">
         <StatusDot status={f.status} />
         <div className="min-w-0 flex-1">
           <p className="text-sm font-semibold text-gray-900">{f.title}</p>
           <p className="mt-0.5 text-sm text-gray-600">{f.detail}</p>
-          {f.status !== 'pass' && f.fix && <p className="mt-1 text-sm text-gray-900">👉 {f.fix}</p>}
+          {f.status !== 'pass' && f.fix && <p className="mt-1.5 flex gap-1.5 text-sm text-gray-900"><IconArrow size={16} className="mt-0.5 shrink-0 text-emerald-700" /> <span>{f.fix}</span></p>}
           {f.status !== 'pass' && (refusal || f.consequence) && (
-            <p className="mt-2 inline-block rounded-md bg-red-50 px-2 py-1 text-xs font-medium text-red-800">
+            <p className="mt-2 inline-block bg-red-50 px-2 py-1 text-xs font-medium text-red-800">
               {refusal ? `Risk — ${refusal.statement}` : f.consequence}
             </p>
           )}
           <FactChips ids={f.refusalReason ? [...f.factIds.filter((id) => id !== `refusal.${f.refusalReason}`), `refusal.${f.refusalReason}`] : f.factIds} lib={lib} />
           {f.status === 'fail' && ai && !exp && (
-            <button onClick={explain} disabled={loading} className="mt-2 text-xs font-semibold text-emerald-700 hover:underline disabled:opacity-50">
-              {loading ? 'Explaining…' : 'Explain this ✨'}
+            <button onClick={explain} disabled={loading} className="mt-2 inline-flex text-sm font-semibold text-stamp hover:underline disabled:opacity-50">
+              {loading ? 'Explaining…' : 'Explain this'}
             </button>
           )}
           {exp && (
-            <div className="mt-2 rounded-lg bg-emerald-50 p-3 text-sm text-gray-800">
+            <div className="mt-2 bg-emerald-50 p-3 text-sm text-gray-800">
               <SourceBadge source={exp.source} />
               <p className="mt-1 whitespace-pre-wrap">{exp.text}</p>
             </div>
@@ -265,7 +266,7 @@ function FindingCard({ f, lib, ai }: { f: Finding; lib: Library; ai: AI | null }
   );
 }
 
-const fieldInput = 'w-full rounded-md border border-gray-300 px-2 py-1 text-xs focus:border-emerald-600 focus:outline-none';
+const fieldInput = 'w-full border border-gray-300 px-2 py-1 text-xs focus:border-emerald-600 focus:outline-none';
 
 function DocCard<K extends DocKind>({ kind, facts, origin, disabled, onFile, onEdit }: { kind: K; facts: Dossier[K]; origin?: Origin; disabled: boolean; onFile: (f: File) => void; onEdit: (f: Dossier[K]) => void }) {
   const [open, setOpen] = useState(false);
@@ -281,17 +282,17 @@ function DocCard<K extends DocKind>({ kind, facts, origin, disabled, onFile, onE
   };
 
   return (
-    <div className="rounded-2xl border border-gray-200 bg-white p-3 shadow-sm">
+    <div className="bg-white px-5 py-4">
       <div className="flex items-center justify-between gap-2">
         <button onClick={() => setOpen(!open)} className="text-left">
           <p className="text-sm font-semibold text-gray-900">
-            {open ? '▾' : '▸'} {DOC_LABELS[kind]}
+            <IconChevron size={14} className={`inline align-[-2px] transition-transform ${open ? 'rotate-90' : ''}`} /> {DOC_LABELS[kind]}
           </p>
-          <p className="text-[11px] text-gray-500">{filled ? `${filled} field(s)` : 'not added'}</p>
+          <p className="text-xs text-gray-500">{filled ? `${filled} field(s)` : 'not added'}</p>
         </button>
         <div className="flex items-center gap-2">
           <SourceBadge source={origin} />
-          <label className={`cursor-pointer rounded-full border border-emerald-700 px-2.5 py-1 text-[11px] font-semibold text-emerald-800 hover:bg-emerald-50 ${disabled ? 'pointer-events-none opacity-40' : ''}`}>
+          <label className={`cursor-pointer bg-gray-900 px-3 py-1.5 text-sm font-semibold text-white hover:bg-stamp ${disabled ? 'pointer-events-none opacity-40' : ''}`}>
             Read file
             <input type="file" accept="application/pdf,.pdf,.txt" className="hidden" onChange={(e) => { const f = e.target.files?.[0]; if (f) onFile(f); e.target.value = ''; }} />
           </label>
@@ -301,7 +302,7 @@ function DocCard<K extends DocKind>({ kind, facts, origin, disabled, onFile, onE
         <div className="mt-3 grid grid-cols-2 gap-2">
           {Object.entries(props).map(([key, spec]) => {
             const v = values[key];
-            const lbl = <span className="text-[10px] font-semibold uppercase text-gray-500">{key.replace(/([A-Z])/g, ' $1')}</span>;
+            const lbl = <span className="text-xs font-semibold uppercase text-gray-500">{key.replace(/([A-Z])/g, ' $1')}</span>;
             if (spec.type === 'boolean')
               return (
                 <label key={key} className="flex items-center gap-1.5 text-xs">
@@ -338,7 +339,7 @@ function LedgerPanel() {
   const ledger = useSyncExternalStore(subscribe, getLedger);
   return (
     <Card>
-      <h2 className="text-lg font-bold text-gray-900">Privacy ledger</h2>
+      <h2 className="text-3xl leading-tight font-medium text-gray-900">Privacy ledger</h2>
       <p className="mt-1 text-sm text-gray-600">Every AI call made in this session, and exactly what went to the cloud. Nothing here is stored.</p>
       {ledger.length === 0 ? (
         <p className="mt-3 text-sm text-gray-500">No AI call yet.</p>
@@ -355,7 +356,7 @@ function LedgerPanel() {
               {e.payload ? (
                 <details className="mt-1">
                   <summary className="cursor-pointer text-xs font-semibold text-sky-700">See exactly what the cloud received ({e.chars} characters)</summary>
-                  <pre className="mt-1 max-h-60 overflow-auto whitespace-pre-wrap rounded-lg bg-gray-900 p-3 text-xs text-gray-100">{e.payload}</pre>
+                  <pre className="mt-1 max-h-60 overflow-auto whitespace-pre-wrap bg-gray-900 p-3 text-xs text-gray-100">{e.payload}</pre>
                 </details>
               ) : (
                 <p className="text-xs text-emerald-700">Stayed on this device — nothing sent.</p>

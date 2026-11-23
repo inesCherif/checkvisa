@@ -39,7 +39,7 @@ export default function AdminPage() {
 
   return (
     <Card className="space-y-4">
-      <h1 className="text-xl font-bold text-gray-900">Maintainer</h1>
+      <h1 className="text-5xl leading-[0.95] font-medium tracking-[-0.03em] text-gray-900 sm:text-6xl">Maintainer</h1>
       <p className="text-sm text-gray-600">
         Copies the bundled dataset ({lib.sources.length} sources, {lib.facts.length} facts, {lib.stats.length} statistics files,
         version {lib.version}) into Firestore, so every visitor gets updated rules without a new deploy.
@@ -53,16 +53,16 @@ export default function AdminPage() {
             <code className="select-all text-xs">{user?.uid}</code>
           </p>
           <div className="flex gap-2">
-            <button onClick={publish} className="rounded-full bg-emerald-700 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-800">
+            <button onClick={publish} className="bg-stamp px-4 py-2 text-sm font-semibold text-white hover:bg-stamp-dark">
               Publish dataset to Firestore
             </button>
-            <button onClick={() => signOut(getAuth(getFirebase().app))} className="rounded-full border border-gray-300 px-4 py-2 text-sm">
+            <button onClick={() => signOut(getAuth(getFirebase().app))} className="border border-gray-300 px-4 py-2 text-sm">
               Sign out
             </button>
           </div>
         </>
       ) : (
-        <button onClick={signIn} className="rounded-full bg-gray-900 px-4 py-2 text-sm font-semibold text-white">
+        <button onClick={signIn} className="bg-gray-900 px-4 py-2 text-sm font-semibold text-white">
           Sign in with Google
         </button>
       )}

@@ -38,24 +38,24 @@ export default function LetterPanel({ ai, trip, dossier }: { ai: AI | null; trip
 
   return (
     <Card>
-      <h2 className="text-lg font-bold text-gray-900">Cover letter</h2>
+      <h2 className="text-3xl leading-tight font-medium text-gray-900">Cover letter</h2>
       <p className="mt-1 text-sm text-gray-600">
         Written by the cloud model from your <strong>trip facts only</strong>. Your name and passport number are filled in here, on
         your device, after the text comes back.
       </p>
       <details className="mt-3">
         <summary className="cursor-pointer text-xs font-semibold text-sky-700">This is exactly what the cloud will see</summary>
-        <pre className="mt-1 whitespace-pre-wrap rounded-lg bg-gray-900 p-3 text-xs text-gray-100">{payload}</pre>
+        <pre className="mt-1 whitespace-pre-wrap bg-gray-900 p-3 text-xs text-gray-100">{payload}</pre>
       </details>
       <div className="mt-3 grid gap-2 sm:grid-cols-2">
-        <input className="rounded-lg border border-gray-300 px-3 py-2 text-sm" placeholder="Employer or school (stays local)" value={employer} onChange={(e) => setEmployer(e.target.value)} />
-        <input className="rounded-lg border border-gray-300 px-3 py-2 text-sm" placeholder="City (stays local)" value={city} onChange={(e) => setCity(e.target.value)} />
+        <input className=" border border-gray-300 px-3 py-2 text-sm" placeholder="Employer or school (stays local)" value={employer} onChange={(e) => setEmployer(e.target.value)} />
+        <input className=" border border-gray-300 px-3 py-2 text-sm" placeholder="City (stays local)" value={city} onChange={(e) => setCity(e.target.value)} />
       </div>
       <div className="mt-3 flex flex-wrap gap-2">
-        <button disabled={!ai || busy} onClick={() => write(false)} className="rounded-full bg-sky-700 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-800 disabled:opacity-50">
+        <button disabled={!ai || busy} onClick={() => write(false)} className="bg-sky-700 px-4 py-2 text-sm font-semibold text-white hover:bg-sky-800 disabled:opacity-50">
           {busy ? 'Writing…' : 'Write my cover letter'}
         </button>
-        <button disabled={!ai || busy} onClick={() => write(true)} className="rounded-full border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50">
+        <button disabled={!ai || busy} onClick={() => write(true)} className="border border-gray-300 px-4 py-2 text-sm font-semibold text-gray-700 hover:bg-gray-50 disabled:opacity-50">
           Write it offline (on-device)
         </button>
       </div>
@@ -64,7 +64,7 @@ export default function LetterPanel({ ai, trip, dossier }: { ai: AI | null; trip
       {res && (
         <div className="mt-4">
           <SourceBadge source={res.source} />
-          <textarea className="mt-2 h-72 w-full rounded-lg border border-gray-300 p-3 font-serif text-sm" value={filled} readOnly />
+          <textarea className="mt-2 h-72 w-full border border-gray-300 p-3 font-serif text-sm" value={filled} readOnly />
         </div>
       )}
     </Card>

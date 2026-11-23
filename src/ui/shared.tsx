@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import type { Library } from '../core/data/library';
 import type { Authority } from '../core/data/schema';
 import type { Status } from '../core/rules/checks';
+import { IconCheck, IconCross, IconQuestion, IconWarning } from './icons';
 
 export const AUTHORITY: Record<Authority, { label: string; className: string }> = {
   'eu-law': { label: 'EU law', className: 'bg-indigo-100 text-indigo-800' },
@@ -15,7 +16,7 @@ export const AUTHORITY: Record<Authority, { label: string; className: string }> 
 };
 
 export function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <section className={`rounded-2xl border border-gray-200 bg-white p-5 shadow-sm ${className}`}>{children}</section>;
+  return <section className={`bg-white p-6 sm:p-8 ${className}`}>{children}</section>;
 }
 
 /** Source chips: each fact shows its publisher kind; clicking opens the exact quote and locator. */
@@ -29,11 +30,11 @@ export function FactChips({ ids, lib }: { ids: string[]; lib: Library }) {
         const auth = source ? AUTHORITY[source.authority] : AUTHORITY.project;
         return (
           <details key={fact.id} className="group text-xs">
-            <summary className={`cursor-pointer list-none rounded-full px-2 py-0.5 font-medium ${auth.className}`}>
+            <summary className={`cursor-pointer list-none px-2 py-0.5 font-medium ${auth.className}`}>
               {auth.label} · {fact.locator}
               {fact.status === 'to-verify' && ' · to verify'}
             </summary>
-            <div className="mt-1 max-w-xl rounded-lg border border-gray-200 bg-gray-50 p-3 text-gray-700">
+            <div className="mt-1 max-w-xl border border-gray-200 bg-gray-50 p-3 text-gray-700">
               <p className="italic">“{fact.quote}”</p>
               {source && (
                 <p className="mt-1 text-gray-500">
@@ -62,7 +63,7 @@ export function StatusDot({ status }: { status: Status }) {
   const s = STATUS_STYLE[status];
   return (
     <span className={`inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${s.className}`} title={s.label}>
-      {s.icon}
+      {status === 'pass' ? <IconCheck size={14} strokeWidth={2.4} /> : status === 'fail' ? <IconCross size={14} strokeWidth={2.4} /> : status === 'warn' ? <IconWarning size={14} strokeWidth={2.2} /> : <IconQuestion size={14} strokeWidth={2.2} />}
     </span>
   );
 }
@@ -76,5 +77,5 @@ export function SourceBadge({ source }: { source: 'on_device' | 'in_cloud' | 'ma
     sample: ['Sample data', 'bg-violet-100 text-violet-800'],
   } as const;
   const [label, cls] = map[source];
-  return <span className={`rounded-full px-2 py-0.5 text-[11px] font-semibold ${cls}`}>{label}</span>;
+  return <span className={`px-2 py-0.5 text-xs font-semibold ${cls}`}>{label}</span>;
 }

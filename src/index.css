@@ -1,12 +1,108 @@
 @import "tailwindcss";
 
+/*
+ * CheckVisa app pages: a light "official document" look. Paper ground, white sheets, black ink,
+ * a consular-stamp red for actions and problems, green only for small "passed" marks.
+ */
+@theme {
+  /* Light "official document" palette: paper, ink, and a consular-stamp red for actions and problems.
+     Green appears only on small "passed" marks. */
+  --color-paper: #f5f5f2;
+  --color-sheet: #ffffff;
+  --color-ink: #121212;
+  --color-muted: #5f625c;
+  --color-stamp: #d51f28;
+  --color-stamp-dark: #ad1520;
+  --color-ok: #2e7d4f;
+
+  --color-white: #ffffff;
+  --color-black: #000;
+
+  --color-gray-50: #f7f7f5;
+  --color-gray-100: #eeeeea;
+  --color-gray-200: #e2e2dd;
+  --color-gray-300: #cfcfc8;
+  --color-gray-400: #a3a49d;
+  --color-gray-500: #6f716a;
+  --color-gray-600: #55574f;
+  --color-gray-700: #3d3f39;
+  --color-gray-800: #262723;
+  --color-gray-900: #121212;
+
+  /* "emerald" = passed / on-device: a quiet green, small doses only */
+  --color-emerald-50: #eef5f0;
+  --color-emerald-100: #e1eee5;
+  --color-emerald-200: #c3ddcb;
+  --color-emerald-600: #2e7d4f;
+  --color-emerald-700: #276b43;
+  --color-emerald-800: #1f5536;
+  --color-green-50: #eef5f0;
+  --color-green-700: #276b43;
+
+  --color-red-50: #fcede9;
+  --color-red-200: #f3c4b8;
+  --color-red-300: #eba594;
+  --color-red-600: #d51f28;
+  --color-red-700: #b3161f;
+  --color-red-800: #8c111a;
+  --color-orange-50: #fcede9;
+  --color-orange-700: #b3161f;
+
+  --font-sans: "Erode", Georgia, serif;
+  --font-display: "Erode", Georgia, serif;
+}
+
+@font-face {
+  font-family: "Erode";
+  src: url("/fonts/erode-400.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Erode";
+  src: url("/fonts/erode-500.woff2") format("woff2");
+  font-weight: 500;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Erode";
+  src: url("/fonts/erode-600.woff2") format("woff2");
+  font-weight: 600 800;
+  font-display: swap;
+}
+
 :root {
   color-scheme: light;
 }
 
+html,
+body {
+  background: #f5f5f2;
+}
+
 body {
   margin: 0;
-  background: #f6f7f9;
-  color: #111827;
-  font-family: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  color: #121212;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+::selection {
+  background: #d51f28;
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid #d51f28;
+  outline-offset: 2px;
+}
+
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
+  text-wrap: balance;
 }

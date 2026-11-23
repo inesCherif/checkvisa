@@ -93,13 +93,13 @@ function HybridPlayground() {
           ok={!!uid}
           bad={!!authError}
         />
-        <div className="rounded-xl border border-gray-200 bg-white p-4">
-          <p className="text-xs font-medium uppercase tracking-wide text-gray-500">On-device model</p>
+        <div className=" bg-white p-4">
+          <p className="text-xs font-medium text-gray-500">On-device model</p>
           <p className="mt-1 text-sm text-gray-900">{status ? ON_DEVICE_STATUS_TEXT[status] : 'checking…'}</p>
           {(status === 'downloadable' || status === 'downloading') && progress === null && (
             <button
               onClick={prepareNano}
-              className="mt-3 rounded-lg bg-gray-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-gray-700"
+              className="mt-3 bg-gray-900 px-3 py-1.5 text-sm font-medium text-white hover:bg-gray-700"
             >
               Prepare Gemini Nano
             </button>
@@ -115,7 +115,7 @@ function HybridPlayground() {
         </div>
       </section>
 
-      <section className="rounded-xl border border-gray-200 bg-white p-5">
+      <section className=" bg-white p-5">
         <label htmlFor="prompt" className="text-sm font-semibold text-gray-900">
           Ask anything
         </label>
@@ -124,7 +124,7 @@ function HybridPlayground() {
           value={prompt}
           onChange={(e) => setPrompt(e.target.value)}
           rows={3}
-          className="mt-2 w-full rounded-lg border border-gray-300 p-3 text-sm focus:border-gray-900 focus:outline-none"
+          className="mt-2 w-full border border-gray-300 p-3 text-sm focus:border-gray-900 focus:outline-none"
         />
         <div className="mt-3 flex flex-wrap items-center justify-between gap-3">
           <label className="flex cursor-pointer items-center gap-2 text-sm text-gray-700">
@@ -139,7 +139,7 @@ function HybridPlayground() {
           <button
             onClick={onAsk}
             disabled={busy || !prompt.trim()}
-            className="rounded-lg bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 disabled:opacity-40"
+            className=" bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-gray-700 disabled:opacity-40"
           >
             {busy ? 'Thinking…' : 'Ask'}
           </button>
@@ -147,14 +147,14 @@ function HybridPlayground() {
       </section>
 
       {error && (
-        <pre className="whitespace-pre-wrap rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-800">{error}</pre>
+        <pre className="whitespace-pre-wrap border border-red-200 bg-red-50 p-4 text-sm text-red-800">{error}</pre>
       )}
 
       {result && (
-        <section className="rounded-xl border border-gray-200 bg-white p-5">
+        <section className=" bg-white p-5">
           <div className="flex flex-wrap items-center gap-2">
             <span
-              className={`rounded-full px-3 py-1 text-xs font-semibold ${
+              className={`px-3 py-1 text-xs font-semibold ${
                 onDevice ? 'bg-emerald-100 text-emerald-800' : 'bg-sky-100 text-sky-800'
               }`}
             >
@@ -176,8 +176,8 @@ function HybridPlayground() {
 
 function StatusTile({ label, value, ok, bad }: { label: string; value: string; ok?: boolean; bad?: boolean }) {
   return (
-    <div className="rounded-xl border border-gray-200 bg-white p-4">
-      <p className="text-xs font-medium uppercase tracking-wide text-gray-500">{label}</p>
+    <div className=" bg-white p-4">
+      <p className="text-xs font-medium text-gray-500">{label}</p>
       <p className={`mt-1 break-words text-sm ${bad ? 'text-red-700' : ok ? 'text-gray-900' : 'text-gray-500'}`}>{value}</p>
     </div>
   );
@@ -193,7 +193,7 @@ const MODE_LABEL: Record<string, string> = {
 function RoutingTable() {
   const rows = (Object.keys(ROUTING_TABLE) as DataClass[]).filter((d) => d !== 'DEMO');
   return (
-    <section className="rounded-xl border border-gray-200 bg-white p-5">
+    <section className=" bg-white p-5">
       <h2 className="text-sm font-semibold text-gray-900">How CheckVisa routes AI calls</h2>
       <p className="mt-1 text-xs text-gray-500">Rules come down, documents never go up.</p>
       <table className="mt-3 w-full text-left text-sm">
@@ -213,7 +213,7 @@ function RoutingTable() {
 
 function SetupNeeded({ missing }: { missing: string[] }) {
   return (
-    <section className="rounded-xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
+    <section className=" border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900">
       <h2 className="font-semibold">Firebase is not configured yet</h2>
       <p className="mt-2">
         Copy <code>.env.example</code> to <code>.env.local</code> and fill in these values from your Firebase project

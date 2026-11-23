@@ -18,8 +18,8 @@ export default function SourcesPage({ lib, origin }: { lib: Library; origin: Ori
 
   return (
     <div className="space-y-6">
-      <section className="rounded-xl border border-gray-200 bg-white p-5">
-        <h1 className="text-xl font-bold text-gray-900">Data library</h1>
+      <section className=" bg-white p-5">
+        <h1 className="text-5xl leading-[0.95] font-medium tracking-[-0.03em] text-gray-900 sm:text-6xl">Data library</h1>
         <p className="mt-1 text-sm text-gray-600">
           Every rule CheckVisa applies comes from an official source below, with the exact article and quote. Nothing
           depends on a single website: EU law, EU guidance, each destination's government, Commission statistics, the
@@ -57,7 +57,7 @@ export default function SourcesPage({ lib, origin }: { lib: Library; origin: Ori
 
 function Stat({ label, value }: { label: string; value: string | number }) {
   return (
-    <div className="rounded-lg bg-gray-50 p-3">
+    <div className=" bg-gray-50 p-3">
       <p className="text-2xl font-bold text-gray-900">{value}</p>
       <p className="text-xs text-gray-500">{label}</p>
     </div>
@@ -68,7 +68,7 @@ function FilterButton({ active, onClick, label }: { active: boolean; onClick: ()
   return (
     <button
       onClick={onClick}
-      className={`rounded-full px-3 py-1 text-xs font-medium ${active ? 'bg-gray-900 text-white' : 'bg-white text-gray-700 ring-1 ring-gray-300'}`}
+      className={`px-3 py-1 text-xs font-medium ${active ? 'bg-gray-900 text-white' : 'bg-white text-gray-700 ring-1 ring-gray-300'}`}
     >
       {label}
     </button>
@@ -80,11 +80,11 @@ function SourceCard({ source, lib }: { source: Source; lib: Library }) {
   const facts = lib.factsBySource.get(source.id) ?? [];
   const badge = AUTHORITY[source.authority];
   return (
-    <article className="rounded-xl border border-gray-200 bg-white p-4">
+    <article className=" bg-white p-4">
       <div className="flex flex-wrap items-center gap-2">
-        <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${badge.className}`}>{badge.label}</span>
+        <span className={`px-2 py-0.5 text-xs font-semibold ${badge.className}`}>{badge.label}</span>
         <span
-          className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
+          className={`px-2 py-0.5 text-xs font-semibold ${
             source.status === 'verified' ? 'bg-green-50 text-green-700' : 'bg-orange-50 text-orange-700'
           }`}
         >
@@ -104,7 +104,7 @@ function SourceCard({ source, lib }: { source: Source; lib: Library }) {
       </dl>
       {source.notes && <p className="mt-2 text-xs text-orange-700">{source.notes}</p>}
       <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
-        <a href={source.url} target="_blank" rel="noreferrer" className="font-medium text-emerald-700 underline">
+        <a href={source.url} target="_blank" rel="noreferrer" className="font-medium text-stamp underline">
           Open source
         </a>
         {source.archiveUrl && (
@@ -153,7 +153,7 @@ function StatsTable({ lib }: { lib: Library }) {
   const prevRate = (state: string) => previous?.rows.find((r) => r.schengenState === state)?.notIssuedRate;
   const pct = (x: number | null | undefined) => (x == null ? '—' : `${(x * 100).toFixed(1)}%`);
   return (
-    <section className="rounded-xl border border-gray-200 bg-white p-5">
+    <section className=" bg-white p-5">
       <h2 className="text-sm font-semibold text-gray-900">
         Schengen visas in Tunisia, {latest.year} — official European Commission data
       </h2>

@@ -14,7 +14,7 @@ export default function StatsPage({ lib }: { lib: Library }) {
   return (
     <div className="space-y-6">
       <Card>
-        <h1 className="text-xl font-bold text-gray-900">How often are Schengen visas not issued in Tunisia?</h1>
+        <h1 className="text-5xl leading-[0.95] font-medium tracking-[-0.03em] text-gray-900 sm:text-6xl">Refusals, country by country</h1>
         <p className="mt-1 text-sm text-gray-600">
           Short-stay visa applications lodged at Schengen consulates in Tunisia, from the European Commission's
           official statistics. In {latest.year}, <b>{latest.totals.applied.toLocaleString('en-GB')}</b> applications were
@@ -34,7 +34,7 @@ export default function StatsPage({ lib }: { lib: Library }) {
         <table className="w-full text-sm">
           <caption className="sr-only">Share of applications not issued, per Schengen state and year</caption>
           <thead>
-            <tr className="text-left text-xs uppercase tracking-wide text-gray-500">
+            <tr className="text-left text-xs text-gray-500">
               <th className="pb-2 font-medium">Schengen state</th>
               <th className="pb-2 font-medium">Not issued</th>
               <th className="hidden pb-2 text-right font-medium sm:table-cell">Applications {years[years.length - 1]}</th>
