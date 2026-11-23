@@ -10,6 +10,7 @@ import { record } from '../routing/ledger';
 import type { DocKind, Dossier } from '../rules/dossier';
 import { DOC_SCHEMAS, extractionPrompt, normalize, parseJsonLoose } from './schemas';
 import { parseMrz } from './mrz';
+import { generateWithRetry } from '../ai/retry';
 
 const cache = new Map<string, GenerativeModel>();
 
@@ -49,7 +50,7 @@ export async function extractDocument<K extends DocKind>(
   const cloud = !!opts.consentToCloud;
   const prompt = extractionPrompt(kind, text);
   const started = performance.now();
-  const result = await extractionModel(ai, kind, cloud).generateContent(prompt);
+  const result = await generateWithRetry(extractionModel(ai, kind, cloud), prompt);
   const source = result.response.inferenceSource ?? (cloud ? 'in_cloud' : 'on_device');
   record({ task: `Read ${kind}`, dataClass: 'PRIVATE', where: source, payload: source === 'in_cloud' ? prompt : undefined, chars: prompt.length });
   let facts = normalize(kind, parseJsonLoose(result.response.text()));

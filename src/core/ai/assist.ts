@@ -7,6 +7,7 @@
 
 import type { AI } from 'firebase/ai';
 import { getModel, DEFAULT_CLOUD_MODEL } from './modelFactory';
+import { generateWithRetry } from './retry';
 import { checkOnDeviceStatus } from './onDevice';
 import { resolveMode, type InferenceSourceValue } from '../routing/policy';
 import { record } from '../routing/ledger';
@@ -40,7 +41,7 @@ export async function explainFinding(ai: AI, f: Finding, lib: Library, forceClou
   const onDevice = !forceCloud && (await checkOnDeviceStatus()) === 'available';
   const mode = onDevice ? 'only_on_device' : resolveMode('PRIVATE_DERIVED', { forceCloud: true });
   const payload = onDevice ? full : reduced;
-  const result = await getModel(ai, mode).generateContent(payload);
+  const result = await generateWithRetry(getModel(ai, mode), payload);
   const source = result.response.inferenceSource ?? (onDevice ? 'on_device' : 'in_cloud');
   record({ task: `Explain “${f.title}”`, dataClass: 'PRIVATE_DERIVED', where: source, payload: source === 'in_cloud' ? payload : undefined, chars: payload.length });
   return { text: result.response.text().trim(), source, payload };
@@ -62,7 +63,7 @@ export function coverLetterPrompt(trip: Trip): string {
 export async function coverLetter(ai: AI, trip: Trip, forceOnDevice = false): Promise<AssistResult> {
   const payload = coverLetterPrompt(trip);
   const mode = forceOnDevice ? 'only_on_device' : resolveMode('TRIP_FACTS');
-  const result = await getModel(ai, mode).generateContent(payload);
+  const result = await generateWithRetry(getModel(ai, mode), payload);
   const source = result.response.inferenceSource ?? (forceOnDevice ? 'on_device' : 'in_cloud');
   record({ task: 'Cover letter', dataClass: 'TRIP_FACTS', where: source, payload: source === 'in_cloud' ? payload : undefined, chars: payload.length });
   return { text: result.response.text().trim(), source, payload };

@@ -2,6 +2,7 @@
 
 import type { AI } from 'firebase/ai';
 import { getModel, DEFAULT_CLOUD_MODEL } from './modelFactory';
+import { generateWithRetry } from './retry';
 import { resolveMode, type InferenceModeValue, type InferenceSourceValue } from '../routing/policy';
 
 export interface AskResult {
@@ -16,7 +17,7 @@ export async function askDemo(ai: AI, prompt: string, forceCloud: boolean): Prom
   const mode = resolveMode('DEMO', { forceCloud });
   const model = getModel(ai, mode);
   const started = performance.now();
-  const result = await model.generateContent(prompt);
+  const result = await generateWithRetry(model, prompt);
   return {
     text: result.response.text(),
     source: result.response.inferenceSource,
