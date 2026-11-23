@@ -31,7 +31,7 @@ export default function SourcesPage({ lib, origin }: { lib: Library; origin: Ori
           <Stat label="Facts" value={lib.facts.length} />
           <Stat label="Verified facts" value={`${Math.round((verified / lib.facts.length) * 100)}%`} />
         </div>
-        <p className="mt-3 text-xs text-gray-500">
+        <p className="mt-3 text-[13px] text-gray-500">
           Dataset version {lib.version} · served from{' '}
           <strong>{origin === 'firestore' ? 'Firestore (live copy)' : 'the bundled dataset'}</strong>
         </p>
@@ -59,7 +59,7 @@ function Stat({ label, value }: { label: string; value: string | number }) {
   return (
     <div className=" bg-gray-50 p-3">
       <p className="text-2xl font-bold text-gray-900">{value}</p>
-      <p className="text-xs text-gray-500">{label}</p>
+      <p className="text-[13px] text-gray-500">{label}</p>
     </div>
   );
 }
@@ -68,7 +68,7 @@ function FilterButton({ active, onClick, label }: { active: boolean; onClick: ()
   return (
     <button
       onClick={onClick}
-      className={`px-3 py-1 text-xs font-medium ${active ? 'bg-gray-900 text-white' : 'bg-white text-gray-700 ring-1 ring-gray-300'}`}
+      className={`px-3 py-1 text-[13px] font-medium ${active ? 'bg-gray-900 text-white' : 'bg-white text-gray-700 ring-1 ring-gray-300'}`}
     >
       {label}
     </button>
@@ -82,19 +82,19 @@ function SourceCard({ source, lib }: { source: Source; lib: Library }) {
   return (
     <article className=" bg-white p-4">
       <div className="flex flex-wrap items-center gap-2">
-        <span className={`px-2 py-0.5 text-xs font-semibold ${badge.className}`}>{badge.label}</span>
+        <span className={`px-2 py-0.5 text-[13px] font-semibold ${badge.className}`}>{badge.label}</span>
         <span
-          className={`px-2 py-0.5 text-xs font-semibold ${
+          className={`px-2 py-0.5 text-[13px] font-semibold ${
             source.status === 'verified' ? 'bg-green-50 text-green-700' : 'bg-orange-50 text-orange-700'
           }`}
         >
           {source.status === 'verified' ? 'Verified' : 'To verify'}
         </span>
-        <span className="text-xs text-gray-500">refresh: {source.refresh}</span>
+        <span className="text-[13px] text-gray-500">refresh: {source.refresh}</span>
       </div>
       <h2 className="mt-2 text-sm font-semibold text-gray-900">{source.title}</h2>
-      <p className="text-xs text-gray-600">{source.publisher}</p>
-      <dl className="mt-2 grid gap-x-4 gap-y-1 text-xs text-gray-600 sm:grid-cols-2">
+      <p className="text-[13px] text-gray-600">{source.publisher}</p>
+      <dl className="mt-2 grid gap-x-4 gap-y-1 text-[13px] text-gray-600 sm:grid-cols-2">
         {source.versionDate && <Row term="Version" value={source.versionDate} />}
         <Row term="Retrieved" value={source.retrievedAt} />
         {source.permanentId && <Row term="Permanent id" value={source.permanentId} />}
@@ -102,8 +102,8 @@ function SourceCard({ source, lib }: { source: Source; lib: Library }) {
         <Row term="Used for" value={source.usedFor} />
         <Row term="Licence" value={source.licence} />
       </dl>
-      {source.notes && <p className="mt-2 text-xs text-orange-700">{source.notes}</p>}
-      <div className="mt-3 flex flex-wrap items-center gap-3 text-xs">
+      {source.notes && <p className="mt-2 text-[13px] text-orange-700">{source.notes}</p>}
+      <div className="mt-3 flex flex-wrap items-center gap-3 text-[13px]">
         <a href={source.url} target="_blank" rel="noreferrer" className="font-medium text-stamp underline">
           Open source
         </a>
@@ -124,9 +124,9 @@ function SourceCard({ source, lib }: { source: Source; lib: Library }) {
             <li key={fact.id} className="text-sm">
               <p className="text-gray-900">
                 {fact.statement}{' '}
-                {fact.status === 'to-verify' && <span className="text-xs text-orange-700">(to verify)</span>}
+                {fact.status === 'to-verify' && <span className="text-[13px] text-orange-700">(to verify)</span>}
               </p>
-              <p className="mt-0.5 text-xs text-gray-500">
+              <p className="mt-0.5 text-[13px] text-gray-500">
                 <span className="font-medium">{fact.locator}</span> — “{fact.quote}”
               </p>
             </li>
@@ -157,7 +157,7 @@ function StatsTable({ lib }: { lib: Library }) {
       <h2 className="text-sm font-semibold text-gray-900">
         Schengen visas in Tunisia, {latest.year} — official European Commission data
       </h2>
-      <p className="mt-1 text-xs text-gray-500">
+      <p className="mt-1 text-[13px] text-gray-500">
         {latest.totals.applied.toLocaleString('en')} applications · {latest.totals.notIssued.toLocaleString('en')} not
         issued ({pct(latest.totals.notIssuedRate)})
         {previous && <> · {previous.year}: {pct(previous.totals.notIssuedRate)}</>}. “Not issued” = refused or
@@ -165,7 +165,7 @@ function StatsTable({ lib }: { lib: Library }) {
       </p>
       <div className="mt-3 overflow-x-auto">
         <table className="w-full min-w-[480px] text-left text-sm">
-          <thead className="text-xs text-gray-500">
+          <thead className="text-[13px] text-gray-500">
             <tr>
               <th className="py-1 pr-3">Consulate in Tunis</th>
               <th className="py-1 pr-3 text-right">Applications</th>

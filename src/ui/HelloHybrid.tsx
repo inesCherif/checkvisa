@@ -94,7 +94,7 @@ function HybridPlayground() {
           bad={!!authError}
         />
         <div className=" bg-white p-4">
-          <p className="text-xs font-medium text-gray-500">On-device model</p>
+          <p className="text-[13px] font-medium text-gray-500">On-device model</p>
           <p className="mt-1 text-sm text-gray-900">{status ? ON_DEVICE_STATUS_TEXT[status] : 'checking…'}</p>
           {(status === 'downloadable' || status === 'downloading') && progress === null && (
             <button
@@ -109,7 +109,7 @@ function HybridPlayground() {
               <div className="h-2 w-full overflow-hidden rounded-full bg-gray-200">
                 <div className="h-full bg-emerald-600 transition-all" style={{ width: `${Math.round(progress * 100)}%` }} />
               </div>
-              <p className="mt-1 text-xs text-gray-500">Downloading… {Math.round(progress * 100)}%</p>
+              <p className="mt-1 text-[13px] text-gray-500">Downloading… {Math.round(progress * 100)}%</p>
             </div>
           )}
         </div>
@@ -154,13 +154,13 @@ function HybridPlayground() {
         <section className=" bg-white p-5">
           <div className="flex flex-wrap items-center gap-2">
             <span
-              className={`px-3 py-1 text-xs font-semibold ${
+              className={`px-3 py-1 text-[13px] font-semibold ${
                 onDevice ? 'bg-emerald-100 text-emerald-800' : 'bg-sky-100 text-sky-800'
               }`}
             >
               {describeSource(result.source, result.mode)}
             </span>
-            <span className="text-xs text-gray-500">
+            <span className="text-[13px] text-gray-500">
               mode <code>{result.mode}</code> · {result.ms} ms
               {!onDevice && <> · model <code>{result.cloudModel}</code></>}
             </span>
@@ -177,7 +177,7 @@ function HybridPlayground() {
 function StatusTile({ label, value, ok, bad }: { label: string; value: string; ok?: boolean; bad?: boolean }) {
   return (
     <div className=" bg-white p-4">
-      <p className="text-xs font-medium text-gray-500">{label}</p>
+      <p className="text-[13px] font-medium text-gray-500">{label}</p>
       <p className={`mt-1 break-words text-sm ${bad ? 'text-red-700' : ok ? 'text-gray-900' : 'text-gray-500'}`}>{value}</p>
     </div>
   );
@@ -195,12 +195,12 @@ function RoutingTable() {
   return (
     <section className=" bg-white p-5">
       <h2 className="text-sm font-semibold text-gray-900">How CheckVisa routes AI calls</h2>
-      <p className="mt-1 text-xs text-gray-500">Rules come down, documents never go up.</p>
+      <p className="mt-1 text-[13px] text-gray-500">Rules come down, documents never go up.</p>
       <table className="mt-3 w-full text-left text-sm">
         <tbody>
           {rows.map((dataClass) => (
             <tr key={dataClass} className="border-t border-gray-100 align-top">
-              <td className="py-2 pr-3 font-mono text-xs text-gray-700">{dataClass}</td>
+              <td className="py-2 pr-3 font-mono text-[13px] text-gray-700">{dataClass}</td>
               <td className="py-2 pr-3 text-gray-900">{MODE_LABEL[ROUTING_TABLE[dataClass].defaultMode]}</td>
               <td className="py-2 text-gray-600">{ROUTING_TABLE[dataClass].why}</td>
             </tr>
@@ -219,7 +219,7 @@ function SetupNeeded({ missing }: { missing: string[] }) {
         Copy <code>.env.example</code> to <code>.env.local</code> and fill in these values from your Firebase project
         (see README → Setup):
       </p>
-      <ul className="mt-2 list-inside list-disc font-mono text-xs">
+      <ul className="mt-2 list-inside list-disc font-mono text-[13px]">
         {missing.map((key) => (
           <li key={key}>{key}</li>
         ))}

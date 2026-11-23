@@ -49,8 +49,8 @@ export default function AdminPage() {
           <p className="text-sm">
             Signed in as <b>{user?.email}</b>
             <br />
-            <span className="text-xs text-gray-500">UID (goes in firestore.rules): </span>
-            <code className="select-all text-xs">{user?.uid}</code>
+            <span className="text-[13px] text-gray-500">UID (goes in firestore.rules): </span>
+            <code className="select-all text-[13px]">{user?.uid}</code>
           </p>
           <div className="flex gap-2">
             <button onClick={publish} className="bg-stamp px-4 py-2 text-sm font-semibold text-white hover:bg-stamp-dark">

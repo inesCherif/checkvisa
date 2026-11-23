@@ -163,7 +163,7 @@ export default function CheckPage({ trip, setTrip, dossier, setDossier, lib, rat
             </button>
           </div>
         </div>
-        <div className="mt-4 grid gap-3 bg-gray-50 p-3 text-xs text-gray-700 sm:grid-cols-3">
+        <div className="mt-4 grid gap-3 bg-gray-50 p-3 text-[13px] text-gray-700 sm:grid-cols-3">
           <p>
             <strong>Gemini Nano:</strong> {nano === 'available' ? 'ready on this device' : nano === 'downloadable' || nano === 'downloading' ? 'prepare it on the AI status page' : 'not available here'}
           </p>
@@ -243,7 +243,7 @@ function FindingCard({ f, lib, ai }: { f: Finding; lib: Library; ai: AI | null }
           <p className="mt-0.5 text-sm text-gray-600">{f.detail}</p>
           {f.status !== 'pass' && f.fix && <p className="mt-1.5 flex gap-1.5 text-sm text-gray-900"><IconArrow size={16} className="mt-0.5 shrink-0 text-emerald-700" /> <span>{f.fix}</span></p>}
           {f.status !== 'pass' && (refusal || f.consequence) && (
-            <p className="mt-2 inline-block bg-red-50 px-2 py-1 text-xs font-medium text-red-800">
+            <p className="mt-2 inline-block bg-red-50 px-2 py-1 text-[13px] font-medium text-red-800">
               {refusal ? `Risk — ${refusal.statement}` : f.consequence}
             </p>
           )}
@@ -259,14 +259,14 @@ function FindingCard({ f, lib, ai }: { f: Finding; lib: Library; ai: AI | null }
               <p className="mt-1 whitespace-pre-wrap">{exp.text}</p>
             </div>
           )}
-          {err && <p className="mt-2 text-xs text-red-700">{err}</p>}
+          {err && <p className="mt-2 text-[13px] text-red-700">{err}</p>}
         </div>
       </div>
     </div>
   );
 }
 
-const fieldInput = 'w-full border border-gray-300 px-2 py-1 text-xs focus:border-emerald-600 focus:outline-none';
+const fieldInput = 'w-full border border-gray-300 px-2 py-1 text-[13px] focus:border-emerald-600 focus:outline-none';
 
 function DocCard<K extends DocKind>({ kind, facts, origin, disabled, onFile, onEdit }: { kind: K; facts: Dossier[K]; origin?: Origin; disabled: boolean; onFile: (f: File) => void; onEdit: (f: Dossier[K]) => void }) {
   const [open, setOpen] = useState(false);
@@ -288,7 +288,7 @@ function DocCard<K extends DocKind>({ kind, facts, origin, disabled, onFile, onE
           <p className="text-sm font-semibold text-gray-900">
             <IconChevron size={14} className={`inline align-[-2px] transition-transform ${open ? 'rotate-90' : ''}`} /> {DOC_LABELS[kind]}
           </p>
-          <p className="text-xs text-gray-500">{filled ? `${filled} field(s)` : 'not added'}</p>
+          <p className="text-[13px] text-gray-500">{filled ? `${filled} field(s)` : 'not added'}</p>
         </button>
         <div className="flex items-center gap-2">
           <SourceBadge source={origin} />
@@ -302,10 +302,10 @@ function DocCard<K extends DocKind>({ kind, facts, origin, disabled, onFile, onE
         <div className="mt-3 grid grid-cols-2 gap-2">
           {Object.entries(props).map(([key, spec]) => {
             const v = values[key];
-            const lbl = <span className="text-xs font-semibold uppercase text-gray-500">{key.replace(/([A-Z])/g, ' $1')}</span>;
+            const lbl = <span className="text-[13px] font-semibold uppercase text-gray-500">{key.replace(/([A-Z])/g, ' $1')}</span>;
             if (spec.type === 'boolean')
               return (
-                <label key={key} className="flex items-center gap-1.5 text-xs">
+                <label key={key} className="flex items-center gap-1.5 text-[13px]">
                   <input type="checkbox" checked={v === true} onChange={(e) => set(key, e.target.checked)} className="accent-emerald-700" /> {lbl}
                 </label>
               );
@@ -348,18 +348,18 @@ function LedgerPanel() {
           {ledger.map((e) => (
             <li key={e.id} className="py-2 text-sm">
               <div className="flex flex-wrap items-center gap-2">
-                <span className="text-xs text-gray-400">{e.at}</span>
+                <span className="text-[13px] text-gray-400">{e.at}</span>
                 <SourceBadge source={e.where === 'blocked' ? undefined : e.where} />
                 <span className="font-medium text-gray-800">{e.task}</span>
-                <span className="text-xs text-gray-500">({e.dataClass})</span>
+                <span className="text-[13px] text-gray-500">({e.dataClass})</span>
               </div>
               {e.payload ? (
                 <details className="mt-1">
-                  <summary className="cursor-pointer text-xs font-semibold text-sky-700">See exactly what the cloud received ({e.chars} characters)</summary>
-                  <pre className="mt-1 max-h-60 overflow-auto whitespace-pre-wrap bg-gray-900 p-3 text-xs text-gray-100">{e.payload}</pre>
+                  <summary className="cursor-pointer text-[13px] font-semibold text-sky-700">See exactly what the cloud received ({e.chars} characters)</summary>
+                  <pre className="mt-1 max-h-60 overflow-auto whitespace-pre-wrap bg-gray-900 p-3 text-[13px] text-gray-100">{e.payload}</pre>
                 </details>
               ) : (
-                <p className="text-xs text-emerald-700">Stayed on this device — nothing sent.</p>
+                <p className="text-[13px] text-emerald-700">Stayed on this device — nothing sent.</p>
               )}
             </li>
           ))}

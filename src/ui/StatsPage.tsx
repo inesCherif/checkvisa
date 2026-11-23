@@ -20,8 +20,8 @@ export default function StatsPage({ lib }: { lib: Library }) {
           official statistics. In {latest.year}, <b>{latest.totals.applied.toLocaleString('en-GB')}</b> applications were
           lodged and <b>{percent(latest.totals.notIssuedRate)}</b> were not issued.
         </p>
-        <p className="mt-2 text-xs text-gray-500">{latest.definitions.notIssued}</p>
-        <div className="mt-3 flex gap-4 text-xs text-gray-600">
+        <p className="mt-2 text-[13px] text-gray-500">{latest.definitions.notIssued}</p>
+        <div className="mt-3 flex gap-4 text-[13px] text-gray-600">
           {years.map((y, i) => (
             <span key={y} className="flex items-center gap-1.5">
               <span className={`inline-block h-2.5 w-2.5 rounded-sm ${YEAR_STYLE[i % 2]}`} /> {y}
@@ -34,7 +34,7 @@ export default function StatsPage({ lib }: { lib: Library }) {
         <table className="w-full text-sm">
           <caption className="sr-only">Share of applications not issued, per Schengen state and year</caption>
           <thead>
-            <tr className="text-left text-xs text-gray-500">
+            <tr className="text-left text-[13px] text-gray-500">
               <th className="pb-2 font-medium">Schengen state</th>
               <th className="pb-2 font-medium">Not issued</th>
               <th className="hidden pb-2 text-right font-medium sm:table-cell">Applications {years[years.length - 1]}</th>
@@ -56,7 +56,7 @@ export default function StatsPage({ lib }: { lib: Library }) {
                               style={{ width: r === null ? 0 : `${(r / max) * 100}%` }}
                             />
                           </div>
-                          <span className="w-12 text-right text-xs tabular-nums text-gray-700">{percent(r)}</span>
+                          <span className="w-12 text-right text-[13px] tabular-nums text-gray-700">{percent(r)}</span>
                         </div>
                       );
                     })}
@@ -71,7 +71,7 @@ export default function StatsPage({ lib }: { lib: Library }) {
         </table>
       </Card>
 
-      <p className="text-xs text-gray-500">
+      <p className="text-[13px] text-gray-500">
         Source:{' '}
         <a className="underline" href={latest.sourceUrl} target="_blank" rel="noreferrer">
           {source?.title ?? 'European Commission visa statistics'}

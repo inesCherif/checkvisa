@@ -2,17 +2,18 @@
 
 /*
  * CheckVisa app pages: a light "official document" look. Paper ground, white sheets, black ink,
- * a consular-stamp red for actions and problems, green only for small "passed" marks.
+ * and the landing page's forest green + UV lime as the only accents (red is kept for real problems).
  */
 @theme {
-  /* Light "official document" palette: paper, ink, and a consular-stamp red for actions and problems.
-     Green appears only on small "passed" marks. */
+  /* Light "official document" palette: paper, ink, and the landing greens as accents.
+     Red stays only for real problems. */
   --color-paper: #f5f5f2;
   --color-sheet: #ffffff;
   --color-ink: #121212;
   --color-muted: #5f625c;
-  --color-stamp: #d51f28;
-  --color-stamp-dark: #ad1520;
+  --color-stamp: #1f3a20; /* landing forest green: buttons, links, active states */
+  --color-stamp-dark: #0f1f10;
+  --color-uv: #c6f19d; /* landing UV lime: progress, ticks, highlights */
   --color-ok: #2e7d4f;
 
   --color-white: #ffffff;
@@ -90,12 +91,12 @@ body {
 }
 
 ::selection {
-  background: #d51f28;
-  color: #fff;
+  background: #c6f19d;
+  color: #0f1f10;
 }
 
 :focus-visible {
-  outline: 2px solid #d51f28;
+  outline: 2px solid #1f3a20;
   outline-offset: 2px;
 }
 

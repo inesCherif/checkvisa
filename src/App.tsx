@@ -197,7 +197,7 @@ export default function App() {
                 className={`relative py-1 transition-colors ${route === r ? 'text-gray-900' : 'text-gray-500 hover:text-gray-900'}`}
               >
                 {label}
-                <span className={`absolute inset-x-0 -bottom-0.5 h-0.5 origin-left bg-stamp transition-transform duration-300 ${route === r ? 'scale-x-100' : 'scale-x-0'}`} />
+                <span className={`absolute inset-x-0 -bottom-0.5 h-0.5 origin-left bg-uv transition-transform duration-300 ${route === r ? 'scale-x-100' : 'scale-x-0'}`} />
               </a>
             ))}
 

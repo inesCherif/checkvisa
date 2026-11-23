@@ -29,7 +29,7 @@ export function FactChips({ ids, lib }: { ids: string[]; lib: Library }) {
         const source = lib.sourceById.get(fact.sourceId);
         const auth = source ? AUTHORITY[source.authority] : AUTHORITY.project;
         return (
-          <details key={fact.id} className="group text-xs">
+          <details key={fact.id} className="group text-[13px]">
             <summary className={`cursor-pointer list-none px-2 py-0.5 font-medium ${auth.className}`}>
               {auth.label} · {fact.locator}
               {fact.status === 'to-verify' && ' · to verify'}
@@ -62,7 +62,7 @@ export const STATUS_STYLE: Record<Status, { icon: string; label: string; classNa
 export function StatusDot({ status }: { status: Status }) {
   const s = STATUS_STYLE[status];
   return (
-    <span className={`inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-xs font-bold ${s.className}`} title={s.label}>
+    <span className={`inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[13px] font-bold ${s.className}`} title={s.label}>
       {status === 'pass' ? <IconCheck size={14} strokeWidth={2.4} /> : status === 'fail' ? <IconCross size={14} strokeWidth={2.4} /> : status === 'warn' ? <IconWarning size={14} strokeWidth={2.2} /> : <IconQuestion size={14} strokeWidth={2.2} />}
     </span>
   );
@@ -77,5 +77,5 @@ export function SourceBadge({ source }: { source: 'on_device' | 'in_cloud' | 'ma
     sample: ['Sample data', 'bg-violet-100 text-violet-800'],
   } as const;
   const [label, cls] = map[source];
-  return <span className={`px-2 py-0.5 text-xs font-semibold ${cls}`}>{label}</span>;
+  return <span className={`px-2 py-0.5 text-[13px] font-semibold ${cls}`}>{label}</span>;
 }

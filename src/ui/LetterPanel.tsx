@@ -44,8 +44,8 @@ export default function LetterPanel({ ai, trip, dossier }: { ai: AI | null; trip
         your device, after the text comes back.
       </p>
       <details className="mt-3">
-        <summary className="cursor-pointer text-xs font-semibold text-sky-700">This is exactly what the cloud will see</summary>
-        <pre className="mt-1 whitespace-pre-wrap bg-gray-900 p-3 text-xs text-gray-100">{payload}</pre>
+        <summary className="cursor-pointer text-[13px] font-semibold text-sky-700">This is exactly what the cloud will see</summary>
+        <pre className="mt-1 whitespace-pre-wrap bg-gray-900 p-3 text-[13px] text-gray-100">{payload}</pre>
       </details>
       <div className="mt-3 grid gap-2 sm:grid-cols-2">
         <input className=" border border-gray-300 px-3 py-2 text-sm" placeholder="Employer or school (stays local)" value={employer} onChange={(e) => setEmployer(e.target.value)} />
@@ -59,7 +59,7 @@ export default function LetterPanel({ ai, trip, dossier }: { ai: AI | null; trip
           Write it offline (on-device)
         </button>
       </div>
-      {!ai && <p className="mt-2 text-xs text-gray-500">Needs the Firebase configuration.</p>}
+      {!ai && <p className="mt-2 text-[13px] text-gray-500">Needs the Firebase configuration.</p>}
       {err && <p className="mt-2 text-sm text-red-700">{err}</p>}
       {res && (
         <div className="mt-4">

@@ -37,8 +37,13 @@ Chrome) reads private documents, and the cloud model (Gemini) only gets public r
 5. **Statistics**: not-issued rates per Schengen state for consulates in Tunisia (2023 vs 2025).
 6. **Sources**: the 18 official sources behind every rule (EU law, Commission guidance, consulate pages,
    visa-centre pages, Central Bank of Tunisia), with retrieval date, SHA-256 and verification status.
+7. **Landing page**: a WebGL "UV lamp" over a specimen dossier. The problems it reveals are computed live by the same
+   rule engine on the fictional sample applicant; a timeline lets you move the trip and re-run the passport check.
+8. **Optional account** (Google or email): saves only the trip answers and the checklist ticks (`users/{uid}` =
+   `{ trip, checked, updatedAt }`, enforced by `firestore.rules`). Documents and results are never stored, with or
+   without an account. The Account page shows the exact stored record and can delete it.
 
-**Try it in 30 seconds:** open *Check my dossier* and click **▶ Try the sample dossier**. It generates a
+**Try it in 30 seconds:** open *Check my dossier* and click **Try the sample dossier**. It generates a
 fictional applicant's PDFs in the browser with 4 planted mistakes (a passport that expires less than 3 months after
 the trip, insurance that ends 2 days before the return, only 2 of the 3 required months of bank statements, and a
 booking under a misspelled surname), and Gemini Nano finds them on-device. *Download sample PDFs* gives you the same files to upload by hand.

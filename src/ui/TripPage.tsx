@@ -62,7 +62,7 @@ export function TripForm({ trip, setTrip }: { trip: Trip; setTrip: (t: Trip) => 
         {select('accommodation', ACCOMMODATIONS)}
       </label>
       <label className="flex cursor-pointer items-center gap-3 text-[17px] text-gray-800 sm:col-span-2">
-        <input type="checkbox" className="h-5 w-5 accent-[#d51f28]" checked={trip.sponsored} onChange={(e) => set('sponsored', e.target.checked)} />
+        <input type="checkbox" className="h-5 w-5 accent-[#1f3a20]" checked={trip.sponsored} onChange={(e) => set('sponsored', e.target.checked)} />
         Someone else pays for the trip (a host, a company, your parents)
       </label>
     </div>
@@ -133,7 +133,7 @@ export default function TripPage({ trip, setTrip, lib, rates, checked, setChecke
           </a>
         </div>
         <div className="mt-6 h-1.5 bg-gray-200" role="progressbar" aria-valuemin={0} aria-valuemax={docs.length} aria-valuenow={ready} aria-label="Documents ready">
-          <div className="h-full bg-ink transition-[width] duration-500" style={{ width: `${docs.length ? (ready / docs.length) * 100 : 0}%` }} />
+          <div className="h-full bg-uv transition-[width] duration-500" style={{ width: `${docs.length ? (ready / docs.length) * 100 : 0}%` }} />
         </div>
 
         <div className="mt-10 space-y-12">
@@ -153,7 +153,7 @@ export default function TripPage({ trip, setTrip, lib, rates, checked, setChecke
                             onClick={() => toggle(item.id)}
                             aria-pressed={done}
                             aria-label={`${done ? 'Untick' : 'Tick'} ${item.title}`}
-                            className={`mt-0.5 grid h-6 w-6 shrink-0 place-items-center border-2 transition-colors ${done ? 'border-ok bg-ok text-white' : 'border-gray-400 hover:border-stamp'}`}
+                            className={`mt-0.5 grid h-6 w-6 shrink-0 place-items-center border-2 transition-colors ${done ? 'border-stamp-dark bg-uv text-stamp-dark' : 'border-gray-400 hover:border-stamp'}`}
                           >
                             {done && <IconCheck size={14} strokeWidth={3} />}
                           </button>
