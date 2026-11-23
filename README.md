@@ -106,7 +106,7 @@ on-device inference.
 6. `cp .env.example .env.local` and fill in the web config and `VITE_RECAPTCHA_SITE_KEY`.
 7. `npm install` → `npm run dev` → http://localhost:5173. On localhost App Check uses a debug token: copy it from
    the browser console into App Check → Apps → *Manage debug tokens*.
-8. Deploy: `npm run build` then `npx firebase-tools deploy --only hosting,firestore:rules,remoteconfig`.
+8. Deploy: `npm run deploy` (builds, then deploys hosting, Firestore rules and Remote Config).
 
 ### Turning on Gemini Nano in Chrome
 

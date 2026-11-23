@@ -10,7 +10,8 @@
     "build": "tsc --noEmit && vite build",
     "preview": "vite preview",
     "typecheck": "tsc --noEmit",
-    "test": "vitest run"
+    "test": "vitest run",
+    "deploy": "npm run build && firebase-tools deploy --only hosting,firestore:rules,remoteconfig"
   },
   "dependencies": {
     "firebase": "^13.4.0",
