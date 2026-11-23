@@ -10,6 +10,7 @@ import { record } from '../routing/ledger';
 import type { DocKind, Dossier } from '../rules/dossier';
 import { DOC_SCHEMAS, extractionPrompt, normalize, parseJsonLoose } from './schemas';
 import { parseMrz } from './mrz';
+import { fixMillimes } from './amounts';
 import { generateWithRetry } from '../ai/retry';
 
 const cache = new Map<string, GenerativeModel>();
@@ -62,6 +63,15 @@ export async function extractDocument<K extends DocKind>(
       const { birthDate: _b, ...fromMrz } = mrz;
       facts = { ...facts, ...(mrz.mrzValid ? fromMrz : { mrzValid: false }) } as typeof facts;
     }
+  }
+  // Deterministic cross-check for dinar amounts ("7 850,000 TND" = 7,850 TND, not 7.85 million).
+  if (kind === 'statements') {
+    const f = facts as NonNullable<Dossier['statements']>;
+    if (f.currency !== 'EUR') facts = { ...f, closingBalance: fixMillimes(f.closingBalance, text) } as typeof facts;
+  }
+  if (kind === 'payslips') {
+    const f = facts as NonNullable<Dossier['payslips']>;
+    facts = { ...f, netSalaryTnd: fixMillimes(f.netSalaryTnd, text) } as typeof facts;
   }
   return { facts, source, ms: Math.round(performance.now() - started) };
 }

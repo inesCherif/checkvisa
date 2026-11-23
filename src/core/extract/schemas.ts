@@ -30,7 +30,7 @@ export const DOC_SCHEMAS: Record<DocKind, { schema: JsonSchema; hint: string }> 
   },
   statements: {
     schema: obj({ holderName: str, months: months, closingBalance: num, currency: { type: 'string', enum: ['TND', 'EUR'] } }),
-    hint: 'bank account statements. months = every calendar month covered by the statements. closingBalance = the most recent balance.',
+    hint: 'bank account statements. months = every calendar month covered by the statements. closingBalance = the most recent balance. Tunisian amounts use a comma before 3 millime digits: "7 850,000 TND" means 7850.',
   },
   payslips: {
     schema: obj({ employeeName: str, months: months, netSalaryTnd: num }),
