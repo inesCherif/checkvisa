@@ -78,8 +78,14 @@ function HybridPlayground() {
         <StatusTile label="Firebase project" value={firebaseConfig.projectId} ok />
         <StatusTile
           label="App Check"
-          value={isLocalhost() ? 'Debug token (localhost)' : 'reCAPTCHA v3'}
-          ok
+          value={
+            !isFirebaseConfigured() || !getFirebase().appCheck
+              ? 'Off (no site key)'
+              : isLocalhost()
+                ? 'Debug token (localhost)'
+                : 'reCAPTCHA Enterprise'
+          }
+          ok={isFirebaseConfigured() && getFirebase().appCheck !== null}
         />
         <StatusTile
           label="Signed in (anonymous)"

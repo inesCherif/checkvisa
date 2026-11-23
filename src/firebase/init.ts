@@ -1,17 +1,18 @@
 // One place that starts every Firebase service the app uses.
 //  - App Check: proves requests come from our real app (required by Firebase AI Logic).
+//    Provider = reCAPTCHA Enterprise (Google Cloud Fraud Defense); reCAPTCHA v3 Classic is deprecated.
 //  - Auth: anonymous sign-in, so Firestore rules can require a signed-in user.
 //  - AI Logic: the hybrid on-device / cloud Gemini SDK.
 
 import { initializeApp, type FirebaseApp } from 'firebase/app';
-import { initializeAppCheck, ReCaptchaV3Provider, type AppCheck } from 'firebase/app-check';
+import { initializeAppCheck, ReCaptchaEnterpriseProvider, type AppCheck } from 'firebase/app-check';
 import { getAuth, signInAnonymously, type User } from 'firebase/auth';
 import { getAI, GoogleAIBackend, type AI } from 'firebase/ai';
 import { appCheckDebugToken, firebaseConfig, isFirebaseConfigured, missingConfigKeys, recaptchaSiteKey } from './config';
 
 export interface FirebaseServices {
   app: FirebaseApp;
-  /** null until a reCAPTCHA v3 site key is configured (App Check not enforced yet). */
+  /** null until a reCAPTCHA Enterprise site key is configured. */
   appCheck: AppCheck | null;
   ai: AI;
   /** Resolves once the anonymous sign-in finished. */
@@ -40,7 +41,7 @@ export function getFirebase(): FirebaseServices {
   }
 
   const appCheck = recaptchaSiteKey
-    ? initializeAppCheck(app, { provider: new ReCaptchaV3Provider(recaptchaSiteKey), isTokenAutoRefreshEnabled: true })
+    ? initializeAppCheck(app, { provider: new ReCaptchaEnterpriseProvider(recaptchaSiteKey), isTokenAutoRefreshEnabled: true })
     : null;
   if (!appCheck) console.warn('[CheckVisa] App Check is off: set VITE_RECAPTCHA_SITE_KEY.');
 
