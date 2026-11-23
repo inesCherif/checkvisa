@@ -8,7 +8,6 @@ import type { Rates } from '../core/rules/money';
 import { DESTINATIONS, PURPOSES, type Trip } from '../core/rules/trip';
 import { DOC_SCHEMAS } from '../core/extract/schemas';
 import { sampleDossier } from '../core/sample/sampleDossier';
-import { SAMPLE_FILES, samplePdf } from '../core/sample/samplePdfs';
 import { getLedger, subscribe } from '../core/routing/ledger';
 import { checkOnDeviceStatus, type OnDeviceStatus } from '../core/ai/onDevice';
 import { isFirebaseConfigured } from '../firebase/config';
@@ -101,7 +100,11 @@ export default function CheckPage({ trip, setTrip, dossier, setDossier, lib, rat
     setDossier({});
     dossierRef.current = {};
     setOrigins({});
-    const { pdfToText } = await import('../core/extract/pdfText');
+    // pdf.js and pdf-lib are big: load them only when the sample is used.
+    const [{ pdfToText }, { SAMPLE_FILES, samplePdf }] = await Promise.all([
+      import('../core/extract/pdfText'),
+      import('../core/sample/samplePdfs'),
+    ]);
     try {
       for (const kind of Object.keys(SAMPLE_FILES) as DocKind[]) {
         setBusy(`Gemini Nano is reading the sample ${DOC_LABELS[kind].toLowerCase()}…`);
@@ -116,6 +119,7 @@ export default function CheckPage({ trip, setTrip, dossier, setDossier, lib, rat
   }
 
   async function downloadSamples() {
+    const { SAMPLE_FILES, samplePdf } = await import('../core/sample/samplePdfs');
     for (const kind of Object.keys(SAMPLE_FILES) as DocKind[]) {
       const bytes = await samplePdf(kind, appDate);
       const url = URL.createObjectURL(new Blob([bytes.slice()], { type: 'application/pdf' }));
