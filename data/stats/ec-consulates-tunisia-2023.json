@@ -1,0 +1,172 @@
+{
+  "dataset": "ec-visa-statistics-consulates",
+  "year": 2023,
+  "country": "TUNISIA",
+  "sourceId": "ec-visa-statistics",
+  "sourceUrl": "https://home-affairs.ec.europa.eu/document/download/87716634-be5e-4920-9358-495a95429759_en?filename=2023-schengen-visa-statistics-consulates_en.xlsx.xlsx",
+  "sha256": "2d3e98dd8fa0a158eedc89a4eeca8af3d4bfc65d999d94bc47e0b7766c45d721",
+  "retrievedAt": "2026-11-23",
+  "definitions": {
+    "notIssued": "Not issued visas include refused visas and applications where the examination has been discontinued (European Commission, visa statistics metadata).",
+    "notIssuedRate": "notIssued / (issued + ltvIssued + notIssued)"
+  },
+  "totals": {
+    "applied": 159740,
+    "issued": 122584,
+    "ltvIssued": 298,
+    "notIssued": 38893,
+    "notIssuedRate": 0.2404
+  },
+  "rows": [
+    {
+      "schengenState": "France",
+      "consulate": "TUNIS",
+      "applied": 85917,
+      "issued": 71451,
+      "multipleEntryIssued": 38940,
+      "ltvIssued": 61,
+      "notIssued": 17274,
+      "notIssuedRate": 0.1946
+    },
+    {
+      "schengenState": "Germany",
+      "consulate": "TUNIS",
+      "applied": 17590,
+      "issued": 15011,
+      "multipleEntryIssued": 14846,
+      "ltvIssued": 17,
+      "notIssued": 2512,
+      "notIssuedRate": 0.1432
+    },
+    {
+      "schengenState": "Italy",
+      "consulate": "TUNIS",
+      "applied": 14930,
+      "issued": 11116,
+      "multipleEntryIssued": 11080,
+      "ltvIssued": 27,
+      "notIssued": 3787,
+      "notIssuedRate": 0.2537
+    },
+    {
+      "schengenState": "Spain",
+      "consulate": "TUNIS",
+      "applied": 12850,
+      "issued": 7748,
+      "multipleEntryIssued": 1373,
+      "ltvIssued": 39,
+      "notIssued": 4507,
+      "notIssuedRate": 0.3666
+    },
+    {
+      "schengenState": "Netherlands",
+      "consulate": "TUNIS",
+      "applied": 6767,
+      "issued": 4304,
+      "multipleEntryIssued": 2154,
+      "ltvIssued": 68,
+      "notIssued": 2253,
+      "notIssuedRate": 0.3401
+    },
+    {
+      "schengenState": "Switzerland",
+      "consulate": "TUNIS",
+      "applied": 5186,
+      "issued": 3941,
+      "multipleEntryIssued": 3528,
+      "ltvIssued": 69,
+      "notIssued": 1176,
+      "notIssuedRate": 0.2268
+    },
+    {
+      "schengenState": "Belgium",
+      "consulate": "TUNIS",
+      "applied": 4129,
+      "issued": 2189,
+      "multipleEntryIssued": 1198,
+      "ltvIssued": 0,
+      "notIssued": 1940,
+      "notIssuedRate": 0.4698
+    },
+    {
+      "schengenState": "Greece",
+      "consulate": "TUNIS",
+      "applied": 2775,
+      "issued": 1172,
+      "multipleEntryIssued": 514,
+      "ltvIssued": 3,
+      "notIssued": 1564,
+      "notIssuedRate": 0.571
+    },
+    {
+      "schengenState": "Austria",
+      "consulate": "TUNIS",
+      "applied": 2716,
+      "issued": 1544,
+      "multipleEntryIssued": 545,
+      "ltvIssued": 5,
+      "notIssued": 1167,
+      "notIssuedRate": 0.4297
+    },
+    {
+      "schengenState": "Finland",
+      "consulate": "TUNIS",
+      "applied": 2673,
+      "issued": 1153,
+      "multipleEntryIssued": 223,
+      "ltvIssued": 8,
+      "notIssued": 1499,
+      "notIssuedRate": 0.5635
+    },
+    {
+      "schengenState": "Poland",
+      "consulate": "TUNIS",
+      "applied": 1164,
+      "issued": 834,
+      "multipleEntryIssued": 198,
+      "ltvIssued": 0,
+      "notIssued": 326,
+      "notIssuedRate": 0.281
+    },
+    {
+      "schengenState": "Portugal",
+      "consulate": "TUNIS",
+      "applied": 1029,
+      "issued": 791,
+      "multipleEntryIssued": 192,
+      "ltvIssued": 0,
+      "notIssued": 238,
+      "notIssuedRate": 0.2313
+    },
+    {
+      "schengenState": "Czech Republic",
+      "consulate": "TUNIS",
+      "applied": 834,
+      "issued": 478,
+      "multipleEntryIssued": 80,
+      "ltvIssued": 1,
+      "notIssued": 355,
+      "notIssuedRate": 0.4257
+    },
+    {
+      "schengenState": "Malta",
+      "consulate": "TUNIS",
+      "applied": 680,
+      "issued": 579,
+      "multipleEntryIssued": 477,
+      "ltvIssued": 0,
+      "notIssued": 68,
+      "notIssuedRate": 0.1051
+    },
+    {
+      "schengenState": "Hungary",
+      "consulate": "TUNIS",
+      "applied": 500,
+      "issued": 273,
+      "multipleEntryIssued": 98,
+      "ltvIssued": 0,
+      "notIssued": 227,
+      "notIssuedRate": 0.454
+    }
+  ]
+}

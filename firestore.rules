@@ -1,0 +1,17 @@
+rules_version = '2';
+// CheckVisa: Firestore holds only public reference data (sources, facts, statistics, rule packs).
+// No user document, extracted field or check result is ever stored.
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isMaintainer() {
+      // Replace with the maintainer's Firebase Auth UID (Google sign-in) after the first login.
+      return request.auth != null && request.auth.uid in ['MAINTAINER_UID'];
+    }
+    match /{collection}/{id} {
+      allow read: if request.auth != null
+                  && collection in ['meta', 'sources', 'facts', 'stats', 'rulePacks'];
+      allow write: if isMaintainer()
+                   && collection in ['meta', 'sources', 'facts', 'stats', 'rulePacks'];
+    }
+  }
+}
