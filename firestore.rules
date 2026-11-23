@@ -4,8 +4,8 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     function isMaintainer() {
-      // Replace with the maintainer's Firebase Auth UID (Google sign-in) after the first login.
-      return request.auth != null && request.auth.uid in ['MAINTAINER_UID'];
+      // The maintainer's Firebase Auth UID (Google sign-in on #/admin).
+      return request.auth != null && request.auth.uid in ['RgbD5TBfFlTtZfH2A9k0T5DNf353'];
     }
     match /{collection}/{id} {
       allow read: if request.auth != null
