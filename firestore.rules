@@ -1,6 +1,7 @@
 rules_version = '2';
 // CheckVisa: Firestore holds only public reference data (sources, facts, statistics, rule packs).
-// No user document, extracted field or check result is ever stored.
+// Accounts store only users/{uid} = { trip, checked, updatedAt }: trip answers and checklist ticks.
+// No document, extracted field or check result is ever stored.
 service cloud.firestore {
   match /databases/{database}/documents {
     function isMaintainer() {
@@ -12,6 +13,18 @@ service cloud.firestore {
                   && collection in ['meta', 'sources', 'facts', 'stats', 'rulePacks'];
       allow write: if isMaintainer()
                    && collection in ['meta', 'sources', 'facts', 'stats', 'rulePacks'];
+    }
+    // A signed-in (non-anonymous) person can read, write and delete only their own record,
+    // and the record can only hold these three keys.
+    match /users/{uid} {
+      allow read, delete: if request.auth != null && request.auth.uid == uid;
+      allow create, update: if request.auth != null
+                            && request.auth.uid == uid
+                            && request.auth.token.firebase.sign_in_provider != 'anonymous'
+                            && request.resource.data.keys().hasOnly(['trip', 'checked', 'updatedAt'])
+                            && request.resource.data.trip is map
+                            && request.resource.data.checked is list
+                            && request.resource.data.checked.size() < 200;
     }
   }
 }
