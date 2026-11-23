@@ -173,6 +173,9 @@ export default function UvLampScene({ docs, fixedDocs, eventSource, control, onH
   const mountRef = useRef<HTMLDivElement>(null);
   const cb = useRef({ onHover, onFound, onCursor, onFixed });
   cb.current = { onHover, onFound, onCursor, onFixed };
+  // The scene is rebuilt when its documents change (the rules library arrives after the first paint).
+  // Remember that the lights were switched on, so a rebuilt scene does not stay dark.
+  const introWanted = useRef(false);
 
   useEffect(() => {
     const mount = mountRef.current!;
@@ -343,16 +346,21 @@ export default function UvLampScene({ docs, fixedDocs, eventSource, control, onH
     }
 
     let introPlayed = false;
+    function snapLit() {
+      placed = true;
+      layout();
+      sheets.forEach((s) => (s.group.rotation.x = 0));
+      shared.uRoom.value = 1;
+      shared.uPower.value = 1;
+      intro.dolly = intro.spin = 0;
+    }
     function playIntro() {
       if (introPlayed) return;
       introPlayed = true;
-      if (reduce) {
-        placed = true;
-        layout();
-        sheets.forEach((s) => (s.group.rotation.x = 0));
-        shared.uRoom.value = 1;
-        shared.uPower.value = 1;
-        intro.dolly = intro.spin = 0;
+      const rebuilt = introWanted.current;
+      introWanted.current = true;
+      if (reduce || rebuilt) {
+        snapLit();
         return;
       }
       const tl = gsap.timeline();
@@ -418,6 +426,7 @@ export default function UvLampScene({ docs, fixedDocs, eventSource, control, onH
         exitP = p;
       },
     };
+    if (introWanted.current) playIntro(); // rebuilt after the lights were switched on: come up lit
 
     // ---------------------------------------------------------------- pointer: lamp + dragging
     const ray = new THREE.Raycaster();
