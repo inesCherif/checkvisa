@@ -1,0 +1,24 @@
+{
+  "parameters": {
+    "rate_tnd_per_eur": {
+      "defaultValue": { "value": "3.4" },
+      "description": "Tunisian dinars for 1 euro (approximate; see Central Bank of Tunisia rates)",
+      "valueType": "NUMBER"
+    },
+    "rate_tnd_per_chf": {
+      "defaultValue": { "value": "3.65" },
+      "description": "Tunisian dinars for 1 Swiss franc (approximate)",
+      "valueType": "NUMBER"
+    },
+    "rates_as_of": {
+      "defaultValue": { "value": "approximate" },
+      "description": "Label shown next to the exchange rates",
+      "valueType": "STRING"
+    },
+    "cloud_model": {
+      "defaultValue": { "value": "gemini-3.5-flash-lite" },
+      "description": "Gemini model used for cloud calls by Firebase AI Logic",
+      "valueType": "STRING"
+    }
+  }
+}

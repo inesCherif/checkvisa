@@ -8,6 +8,10 @@ import { defaultTrip, type Trip } from './core/rules/trip';
 import { today } from './core/rules/dates';
 import { DEFAULT_RATES } from './core/rules/money';
 import type { Dossier } from './core/rules/dossier';
+import { getFirebase } from './firebase/init';
+import { isFirebaseConfigured } from './firebase/config';
+import { loadRemoteConfig } from './firebase/remoteConfig';
+import { setCloudModel } from './core/ai/modelFactory';
 
 type Route = '#/trip' | '#/check' | '#/sources' | '#/hybrid';
 const NAV: Array<[Route, string]> = [
@@ -36,7 +40,7 @@ function loadTrip(): Trip {
 export default function App() {
   const [route, setRoute] = useState<Route>(currentRoute);
   const [lib] = useState(bundledLibrary);
-  const [rates] = useState(DEFAULT_RATES);
+  const [rates, setRates] = useState(DEFAULT_RATES);
   const [trip, setTripState] = useState<Trip>(loadTrip);
   // Private document facts: kept in memory only, never written to storage or Firestore.
   const [dossier, setDossier] = useState<Dossier>({});
@@ -49,6 +53,15 @@ export default function App() {
       /* ignore */
     }
   };
+
+  // Exchange rates and the cloud model name come from Remote Config (falls back to defaults).
+  useEffect(() => {
+    if (!isFirebaseConfigured()) return;
+    loadRemoteConfig(getFirebase().app).then((config) => {
+      setRates(config.rates);
+      setCloudModel(config.cloudModel);
+    });
+  }, []);
 
   useEffect(() => {
     const onHash = () => {

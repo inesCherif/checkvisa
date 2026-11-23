@@ -4,7 +4,7 @@
 // with its full payload.
 
 import { getGenerativeModel, type AI, type GenerativeModel } from 'firebase/ai';
-import { DEFAULT_CLOUD_MODEL, ON_DEVICE_INPUT_LANGUAGES, ON_DEVICE_OUTPUT_LANGUAGES } from '../ai/modelFactory';
+import { getCloudModel, ON_DEVICE_INPUT_LANGUAGES, ON_DEVICE_OUTPUT_LANGUAGES } from '../ai/modelFactory';
 import { resolveMode } from '../routing/policy';
 import { record } from '../routing/ledger';
 import type { DocKind, Dossier } from '../rules/dossier';
@@ -15,12 +15,12 @@ import { generateWithRetry } from '../ai/retry';
 const cache = new Map<string, GenerativeModel>();
 
 function extractionModel(ai: AI, kind: DocKind, cloud: boolean): GenerativeModel {
-  const key = `${kind}|${cloud}`;
+  const key = `${kind}|${cloud}|${getCloudModel()}`;
   const hit = cache.get(key);
   if (hit) return hit;
   const model = getGenerativeModel(ai, {
     mode: resolveMode('PRIVATE', { forceCloud: cloud, consentToCloud: cloud }),
-    inCloudParams: { model: DEFAULT_CLOUD_MODEL, generationConfig: { responseMimeType: 'application/json', temperature: 0 } },
+    inCloudParams: { model: getCloudModel(), generationConfig: { responseMimeType: 'application/json', temperature: 0 } },
     onDeviceParams: {
       createOptions: {
         expectedInputs: [{ type: 'text', languages: ON_DEVICE_INPUT_LANGUAGES }],

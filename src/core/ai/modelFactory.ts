@@ -13,7 +13,16 @@ export const ON_DEVICE_OUTPUT_LANGUAGES = ['en'];
 
 const cache = new Map<string, GenerativeModel>();
 
-export function getModel(ai: AI, mode: InferenceModeValue, cloudModel: string = DEFAULT_CLOUD_MODEL): GenerativeModel {
+/** Cloud model in use; Remote Config (`cloud_model`) can change it without a redeploy. */
+let activeCloudModel = DEFAULT_CLOUD_MODEL;
+export function setCloudModel(name: string): void {
+  if (name.trim()) activeCloudModel = name.trim();
+}
+export function getCloudModel(): string {
+  return activeCloudModel;
+}
+
+export function getModel(ai: AI, mode: InferenceModeValue, cloudModel: string = activeCloudModel): GenerativeModel {
   const key = `${mode}|${cloudModel}`;
   const cached = cache.get(key);
   if (cached) return cached;

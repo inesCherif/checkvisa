@@ -1,7 +1,7 @@
 // Step 1 smoke test: send one prompt through the routing policy and report where it ran.
 
 import type { AI } from 'firebase/ai';
-import { getModel, DEFAULT_CLOUD_MODEL } from './modelFactory';
+import { getModel, getCloudModel } from './modelFactory';
 import { generateWithRetry } from './retry';
 import { resolveMode, type InferenceModeValue, type InferenceSourceValue } from '../routing/policy';
 
@@ -22,7 +22,7 @@ export async function askDemo(ai: AI, prompt: string, forceCloud: boolean): Prom
     text: result.response.text(),
     source: result.response.inferenceSource,
     mode,
-    cloudModel: DEFAULT_CLOUD_MODEL,
+    cloudModel: getCloudModel(),
     ms: Math.round(performance.now() - started),
   };
 }
