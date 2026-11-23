@@ -21,7 +21,6 @@ const REQUIRED: Array<[string, string]> = [
   ['VITE_FIREBASE_AUTH_DOMAIN', firebaseConfig.authDomain],
   ['VITE_FIREBASE_PROJECT_ID', firebaseConfig.projectId],
   ['VITE_FIREBASE_APP_ID', firebaseConfig.appId],
-  ['VITE_RECAPTCHA_SITE_KEY', recaptchaSiteKey],
 ];
 
 /** Names of required env variables that are still empty. */

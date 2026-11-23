@@ -4,17 +4,8 @@ import type { Authority, Source } from '../core/data/schema';
 import { isFirebaseConfigured } from '../firebase/config';
 import { getFirebase } from '../firebase/init';
 import { loadLibraryFromFirestore } from '../firebase/library';
+import { AUTHORITY } from './shared';
 
-const AUTHORITY: Record<Authority, { label: string; className: string }> = {
-  'eu-law': { label: 'EU law', className: 'bg-indigo-100 text-indigo-800' },
-  'eu-guidance': { label: 'EU guidance', className: 'bg-violet-100 text-violet-800' },
-  'national-official': { label: 'National official', className: 'bg-emerald-100 text-emerald-800' },
-  'visa-centre': { label: 'Visa centre', className: 'bg-amber-100 text-amber-800' },
-  statistics: { label: 'Statistics', className: 'bg-sky-100 text-sky-800' },
-  'central-bank': { label: 'Central bank', className: 'bg-teal-100 text-teal-800' },
-  standard: { label: 'Standard', className: 'bg-gray-200 text-gray-800' },
-  project: { label: 'Project', className: 'bg-gray-100 text-gray-600' },
-};
 
 type Origin = 'bundle' | 'firestore';
 

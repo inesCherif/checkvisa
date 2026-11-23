@@ -11,7 +11,8 @@ import { appCheckDebugToken, firebaseConfig, isFirebaseConfigured, missingConfig
 
 export interface FirebaseServices {
   app: FirebaseApp;
-  appCheck: AppCheck;
+  /** null until a reCAPTCHA v3 site key is configured (App Check not enforced yet). */
+  appCheck: AppCheck | null;
   ai: AI;
   /** Resolves once the anonymous sign-in finished. */
   user: Promise<User>;
@@ -38,10 +39,10 @@ export function getFirebase(): FirebaseServices {
     globalThis.FIREBASE_APPCHECK_DEBUG_TOKEN = appCheckDebugToken || true;
   }
 
-  const appCheck = initializeAppCheck(app, {
-    provider: new ReCaptchaV3Provider(recaptchaSiteKey),
-    isTokenAutoRefreshEnabled: true,
-  });
+  const appCheck = recaptchaSiteKey
+    ? initializeAppCheck(app, { provider: new ReCaptchaV3Provider(recaptchaSiteKey), isTokenAutoRefreshEnabled: true })
+    : null;
+  if (!appCheck) console.warn('[CheckVisa] App Check is off: set VITE_RECAPTCHA_SITE_KEY.');
 
   // Gemini Developer API backend = free tier on the Spark plan.
   const ai = getAI(app, { backend: new GoogleAIBackend() });
