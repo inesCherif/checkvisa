@@ -228,7 +228,7 @@ function passport(sample: Sample, finding?: Finding): DocTexture {
   rosette(ug, w * 0.78, h * 0.42, h * 0.3, '#7fd6ff', 0.5, 24, 1.1);
   rosette(ug, w * 0.175, h * 0.46, h * 0.2, UV_GREEN, 0.55, 14, 1);
   text(ug, 'TUN', w * 0.52, h * 0.72, h * 0.16, { weight: 700, color: 'rgba(198,241,157,0.35)', align: 'center', spacing: 18 });
-  uvMark(ug, ex.x, ex.y, ex.w, ex.h);
+  if (finding) uvMark(ug, ex.x, ex.y, ex.w, ex.h);
   return { id: 'passport', aspect, visible: c, uv: u, hotspot: hs(c, ex.x, ex.y, ex.w, ex.h), finding };
 }
 
@@ -272,7 +272,7 @@ function insurance(sample: Sample, finding?: Finding): DocTexture {
   const { u, ug } = blank(c);
   fibres(ug, w, h, 120, 9);
   rosette(ug, w * 0.82, h * 0.1, w * 0.12, '#7fd6ff', 0.6, 16, 1.1);
-  uvMark(ug, pr.x, pr.y, pr.w, pr.h);
+  if (finding) uvMark(ug, pr.x, pr.y, pr.w, pr.h);
   return { id: 'insurance', aspect: 210 / 297, visible: c, uv: u, hotspot: hs(c, pr.x, pr.y, pr.w, pr.h), finding };
 }
 
@@ -304,7 +304,7 @@ function statements(sample: Sample, finding?: Finding): DocTexture {
   const { u, ug } = blank(c);
   fibres(ug, w, h, 110, 13);
   waves(ug, w, h * 0.16, '#7fd6ff', 0.55, 16, 7);
-  uvMark(ug, box.x, box.y, box.w, box.h);
+  if (finding) uvMark(ug, box.x, box.y, box.w, box.h);
   return { id: 'statements', aspect: 210 / 297, visible: c, uv: u, hotspot: hs(c, box.x, box.y, box.w, box.h), finding };
 }
 
@@ -337,7 +337,7 @@ function booking(sample: Sample, finding?: Finding): DocTexture {
 
   const { u, ug } = blank(c);
   fibres(ug, w, h, 90, 17);
-  uvMark(ug, nm.x, nm.y, nm.w, nm.h);
+  if (finding) uvMark(ug, nm.x, nm.y, nm.w, nm.h);
   return { id: 'booking', aspect, visible: c, uv: u, hotspot: hs(c, nm.x, nm.y, nm.w, nm.h), finding };
 }
 
