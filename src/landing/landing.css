@@ -702,3 +702,328 @@
 .lp-photo-frame img {
   transform: scale(1.14);
 }
+
+/* ================================================================ wow layer */
+
+/* ---------- intro: a sentence in invisible ink, read by a UV beam */
+.lp-introscreen {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: grid;
+  place-items: center;
+  background: #050b06;
+  cursor: pointer;
+  --bx: -25%;
+  --by: 55%;
+  --br: 18vmax;
+}
+.lp-introscreen p {
+  max-width: 14ch;
+  padding-inline: var(--margin);
+  font-size: clamp(2.6rem, 1rem + 6vw, 7.5rem);
+  font-weight: 500;
+  letter-spacing: -0.035em;
+  line-height: 0.95;
+  text-align: center;
+  color: var(--accent);
+  -webkit-mask-image: radial-gradient(circle var(--br) at var(--bx) var(--by), #000 35%, transparent 72%);
+  mask-image: radial-gradient(circle var(--br) at var(--bx) var(--by), #000 35%, transparent 72%);
+}
+.lp-introscreen::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle var(--br) at var(--bx) var(--by), rgba(198, 241, 157, 0.09), transparent 70%);
+}
+.lp-skip {
+  position: absolute;
+  right: var(--margin);
+  bottom: 24px;
+  font-size: var(--step-small);
+  color: var(--muted);
+}
+
+/* ---------- the lamp cursor: a dot, a ring to grab, a small fill while dragging */
+.lp-ring {
+  position: absolute;
+  left: 0;
+  top: 0;
+  z-index: 4;
+  width: 14px;
+  height: 14px;
+  margin: -7px 0 0 -7px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font-size: 13px;
+  font-weight: 600;
+  pointer-events: none;
+  mix-blend-mode: normal;
+  transition:
+    width 0.35s var(--ease),
+    height 0.35s var(--ease),
+    margin 0.35s var(--ease),
+    opacity 0.2s;
+}
+.cursor-grab .lp-ring {
+  width: 64px;
+  height: 64px;
+  margin: -32px 0 0 -32px;
+}
+.cursor-drag .lp-ring {
+  width: 26px;
+  height: 26px;
+  margin: -13px 0 0 -13px;
+}
+.lp-tally {
+  pointer-events: auto;
+}
+.lp-fix {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  margin-top: 1rem;
+  padding: 0.8em 1.1em;
+  border: 0;
+  background: var(--accent);
+  color: var(--accent-ink);
+  font: 600 var(--step-body) / 1 'Erode', serif;
+  cursor: pointer;
+  animation: lp-pulse 1.6s var(--ease) infinite;
+}
+@keyframes lp-pulse {
+  50% {
+    transform: scale(1.05);
+  }
+}
+
+/* ---------- the number */
+.lp-intro {
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  align-items: end;
+  padding-bottom: var(--gap-section);
+}
+.lp-intro .lp-num {
+  font-size: clamp(5rem, 1rem + 15vw, 17rem);
+}
+.lp-intro-text {
+  position: static;
+  padding-bottom: 1.5vw;
+}
+
+/* ---------- the road to Schengen: horizontal */
+.lp-journey {
+  height: 100svh;
+  overflow: hidden;
+  background: var(--black);
+}
+.lp-track {
+  display: flex;
+  height: 100%;
+  align-items: center;
+  gap: clamp(32px, 5vw, 96px);
+  padding-inline: var(--margin);
+  width: max-content;
+}
+.lp-panel {
+  margin: 0;
+  flex: none;
+  width: min(62vw, 980px);
+}
+.lp-panel-lead {
+  width: min(50vw, 820px);
+}
+.lp-panel-lead h2 {
+  font-size: var(--step-display);
+}
+.lp-panel-img {
+  overflow: hidden;
+  aspect-ratio: 16 / 10;
+}
+.lp-panel-img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.22);
+  filter: brightness(0.7) saturate(0.75) contrast(1.05);
+}
+.lp-panel-text {
+  display: grid;
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  gap: var(--margin);
+  margin-top: 1.4rem;
+}
+.lp-panel-text b {
+  font-size: var(--step-lead);
+  font-weight: 500;
+  line-height: 1.1;
+}
+.lp-panel-text span {
+  color: var(--muted);
+}
+
+/* ---------- rules come down / documents never go up */
+.lp-rain {
+  position: relative;
+  height: 100svh;
+  overflow: hidden;
+}
+.lp-drops {
+  position: absolute;
+  inset: 0;
+}
+.lp-drop {
+  position: absolute;
+  top: 0;
+  max-width: 17rem;
+  padding: 0.75rem 0.9rem;
+  background: var(--surface);
+  font-size: var(--step-small);
+  line-height: 1.35;
+  color: var(--ink);
+  will-change: transform;
+}
+.lp-drop small {
+  display: block;
+  margin-top: 0.35rem;
+  color: var(--accent);
+  font-size: var(--step-small);
+}
+.lp-rain-copy {
+  position: absolute;
+  left: var(--margin);
+  bottom: clamp(40px, 10vh, 120px);
+  z-index: 2;
+  max-width: min(46rem, 90vw);
+}
+.lp-rain-copy h2 {
+  font-size: var(--step-display);
+}
+.lp-rain-copy p {
+  margin-top: 1.2rem;
+  max-width: 30rem;
+  font-size: var(--step-lead);
+  line-height: 1.4;
+  background: var(--bg);
+}
+.lp-rain-b {
+  opacity: 0;
+  visibility: hidden;
+}
+.lp-rain-b h2 {
+  color: var(--accent);
+}
+.lp-upload {
+  position: absolute;
+  visibility: visible;
+  right: clamp(24px, 12vw, 220px);
+  bottom: clamp(40px, 10vh, 120px);
+  z-index: 2;
+  width: clamp(200px, 20vw, 300px);
+  aspect-ratio: 210 / 297;
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  background: var(--paper);
+  color: #1b1d18;
+  opacity: 0;
+}
+.lp-upload b {
+  font-size: var(--step-lead);
+  font-weight: 600;
+}
+.lp-upload span {
+  font-size: var(--step-small);
+  color: #5d6159;
+}
+.lp-upload-tag {
+  margin-top: auto;
+  align-self: flex-start;
+  padding: 0.45em 0.7em;
+  background: var(--bg);
+  color: var(--accent);
+  font-style: normal;
+  font-size: var(--step-small);
+}
+
+/* ---------- bars: counts on hover */
+.lp-bar-fill {
+  flex-direction: column;
+  gap: 0.3em;
+  transition: background-color 0.3s var(--ease);
+}
+.lp-bar-more {
+  font-size: var(--step-small);
+  font-weight: 400;
+  letter-spacing: 0;
+  opacity: 0;
+  transform: translateY(6px);
+  transition:
+    opacity 0.3s var(--ease),
+    transform 0.3s var(--ease);
+}
+.lp-bar:hover .lp-bar-fill,
+.lp-bar:focus-visible .lp-bar-fill {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+.lp-bar:hover .lp-bar-more,
+.lp-bar:focus-visible .lp-bar-more {
+  opacity: 1;
+  transform: none;
+}
+
+/* ---------- CTA: the hovered country's rate fills the field */
+.lp-cta {
+  position: relative;
+  overflow: hidden;
+}
+.lp-cta > * {
+  position: relative;
+}
+.lp-cta-rate {
+  position: absolute !important;
+  right: -0.04em;
+  bottom: -0.18em;
+  font-size: clamp(10rem, 4rem + 26vw, 30rem);
+  font-weight: 500;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  color: rgba(15, 31, 16, 0.12);
+  pointer-events: none;
+}
+.lp-cta-sub {
+  margin-top: 1.2rem;
+  font-size: var(--step-lead);
+  min-height: 3em;
+  max-width: 40rem;
+}
+.lp-wordmark span {
+  display: inline-block;
+}
+
+@media (max-width: 860px) {
+  .lp-panel {
+    width: 82vw;
+  }
+  .lp-panel-lead {
+    width: 70vw;
+  }
+  .lp-panel-text {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 0.4rem;
+  }
+  .lp-upload {
+    width: 150px;
+    right: var(--margin);
+    bottom: auto;
+    top: 90px;
+  }
+  .lp-intro {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
