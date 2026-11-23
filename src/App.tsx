@@ -3,6 +3,7 @@ import HelloHybrid from './ui/HelloHybrid';
 import SourcesPage from './ui/SourcesPage';
 import TripPage from './ui/TripPage';
 import CheckPage from './ui/CheckPage';
+import StatsPage from './ui/StatsPage';
 import { bundledLibrary } from './core/data/library';
 import { defaultTrip, type Trip } from './core/rules/trip';
 import { today } from './core/rules/dates';
@@ -13,10 +14,11 @@ import { isFirebaseConfigured } from './firebase/config';
 import { loadRemoteConfig } from './firebase/remoteConfig';
 import { setCloudModel } from './core/ai/modelFactory';
 
-type Route = '#/trip' | '#/check' | '#/sources' | '#/hybrid';
+type Route = '#/trip' | '#/check' | '#/stats' | '#/sources' | '#/hybrid';
 const NAV: Array<[Route, string]> = [
   ['#/trip', '1 · My trip'],
   ['#/check', '2 · Check my dossier'],
+  ['#/stats', 'Statistics'],
   ['#/sources', 'Sources'],
   ['#/hybrid', 'AI status'],
 ];
@@ -75,6 +77,7 @@ export default function App() {
   const pages: Record<Route, () => ReactNode> = {
     '#/trip': () => <TripPage trip={trip} setTrip={setTrip} lib={lib} rates={rates} />,
     '#/check': () => <CheckPage trip={trip} setTrip={setTrip} dossier={dossier} setDossier={setDossier} lib={lib} rates={rates} />,
+    '#/stats': () => <StatsPage lib={lib} />,
     '#/sources': () => <SourcesPage />,
     '#/hybrid': () => <HelloHybrid />,
   };

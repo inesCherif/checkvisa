@@ -5,6 +5,7 @@ import { pretty, stayDays } from '../core/rules/dates';
 import { meansRequired, toTnd, visaFee, type Rates } from '../core/rules/money';
 import { ACCOMMODATIONS, DESTINATIONS, PURPOSES, STATUSES, type Trip } from '../core/rules/trip';
 import { Card, FactChips } from './shared';
+import { destinationStat, percent } from '../core/data/stats';
 
 interface Props {
   trip: Trip;
@@ -95,6 +96,7 @@ export default function TripPage({ trip, setTrip, lib, rates }: Props) {
           sub={means.amount === null ? DESTINATIONS[trip.destination] : `≈ ${toTnd(means.amount, means.currency, rates).toLocaleString('en-GB')} TND`}
         />
       </div>
+      <DestinationStat trip={trip} lib={lib} />
 
       <Card>
         <div className="flex flex-wrap items-baseline justify-between gap-2">
@@ -137,5 +139,19 @@ function Kpi({ label, value, sub, warn }: { label: string; value: string; sub?: 
       <p className={`mt-1 text-2xl font-bold ${warn ? 'text-red-700' : 'text-gray-900'}`}>{value}</p>
       {sub && <p className="mt-0.5 text-xs text-gray-500">{sub}</p>}
     </div>
+  );
+}
+
+function DestinationStat({ trip, lib }: { trip: Trip; lib: Library }) {
+  const hit = destinationStat(lib.stats, trip.destination);
+  if (!hit) return null;
+  return (
+    <p className="rounded-xl bg-sky-50 px-4 py-2.5 text-sm text-sky-900">
+      In {hit.year}, <b>{percent(hit.stat.rate)}</b> of the {hit.stat.applied.toLocaleString('en-GB')} short-stay applications
+      to {DESTINATIONS[trip.destination]} lodged in Tunisia were not issued (European Commission).{' '}
+      <a href="#/stats" className="font-semibold underline">
+        Compare countries
+      </a>
+    </p>
   );
 }
