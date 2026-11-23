@@ -878,7 +878,8 @@
 .lp-drop {
   position: absolute;
   top: 0;
-  max-width: 17rem;
+  width: 13.5%;
+  min-width: 9rem;
   padding: 0.75rem 0.9rem;
   background: var(--surface);
   font-size: var(--step-small);
@@ -1025,5 +1026,187 @@
   }
   .lp-intro {
     grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* ---------- the law, on the passport's own dates */
+.lp-law {
+  padding: var(--gap-section) var(--margin) 0;
+}
+.lp-law-head {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: var(--margin);
+  align-items: end;
+}
+.lp-law-head h2 {
+  font-size: var(--step-display);
+}
+.lp-law-head p {
+  color: var(--muted);
+  max-width: 30rem;
+}
+.lp-tl {
+  margin-top: clamp(48px, 6vw, 96px);
+  padding: clamp(24px, 3vw, 48px) clamp(16px, 2vw, 32px) 56px;
+  background: var(--surface);
+  position: relative;
+}
+.lp-tl-row {
+  display: grid;
+  grid-template-columns: 8rem minmax(0, 1fr);
+  align-items: center;
+  gap: var(--margin);
+  height: clamp(64px, 7vw, 88px);
+}
+.lp-tl-name {
+  color: var(--muted);
+  font-size: var(--step-small);
+}
+.lp-tl-lane {
+  position: relative;
+  height: 100%;
+}
+.lp-tl-lane > span {
+  position: absolute;
+  top: 18%;
+  height: 40%;
+  transition:
+    left 0.45s var(--ease),
+    width 0.45s var(--ease),
+    background-color 0.3s;
+}
+.lp-tl-trip {
+  background: var(--paper);
+}
+.lp-tl-pass {
+  left: 0;
+  background: var(--surface-2);
+  background-image: repeating-linear-gradient(90deg, rgba(237, 235, 228, 0.07) 0 2px, transparent 2px 9px);
+}
+.lp-tl-need {
+  background: rgba(196, 48, 28, 0.25);
+}
+.lp-tl-need.ok {
+  background: rgba(198, 241, 157, 0.35);
+}
+.lp-tl-gap {
+  background: #c4301c;
+  color: #fff;
+  font-size: var(--step-small);
+  display: flex;
+  align-items: center;
+  padding-left: 0.5em;
+  white-space: nowrap;
+  overflow: visible;
+  z-index: 1;
+}
+.lp-tl-lane > .lp-tl-label {
+  top: 64%;
+  height: auto;
+  padding-top: 0.35em;
+  transform: translateX(-100%);
+  font-size: var(--step-small);
+  white-space: nowrap;
+  color: var(--ink);
+  background: none;
+}
+.lp-tl-months {
+  position: absolute;
+  left: calc(clamp(16px, 2vw, 32px) + 8rem + var(--margin));
+  right: clamp(16px, 2vw, 32px);
+  bottom: 16px;
+  height: 1.4em;
+}
+.lp-tl-months span {
+  position: absolute;
+  font-size: var(--step-small);
+  color: var(--muted);
+}
+.lp-law-foot {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: clamp(32px, 5vw, 80px);
+  margin-top: clamp(40px, 5vw, 72px);
+}
+.lp-law-foot blockquote {
+  margin: 0;
+}
+.lp-law-foot blockquote p {
+  font-size: clamp(1.4rem, 1rem + 1.2vw, 2.1rem);
+  line-height: 1.2;
+  letter-spacing: -0.015em;
+}
+.lp-law-foot cite {
+  display: block;
+  margin-top: 1rem;
+  font-style: normal;
+  color: var(--muted);
+}
+.lp-law-foot cite a {
+  color: var(--accent);
+}
+.lp-verdict {
+  font-size: var(--step-lead);
+  font-weight: 600;
+  line-height: 1.2;
+}
+.lp-verdict.bad {
+  color: #ff8a73;
+}
+.lp-verdict.ok {
+  color: var(--accent);
+}
+.lp-law-verdict > p + p {
+  margin-top: 0.6rem;
+}
+.lp-law-fix {
+  color: var(--muted);
+}
+.lp-range {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 1.6rem;
+}
+.lp-range span {
+  font-size: var(--step-small);
+  color: var(--muted);
+}
+.lp-range input {
+  width: 100%;
+  accent-color: var(--accent);
+  cursor: ew-resize;
+}
+.lp-renew {
+  margin-top: 1.2rem;
+  padding: 0.8em 1.1em;
+  border: 0;
+  background: var(--surface-2);
+  color: var(--ink);
+  font: 500 var(--step-body) / 1 'Erode', serif;
+  cursor: pointer;
+  transition: background-color 0.25s var(--ease);
+}
+.lp-renew:hover,
+.lp-renew.on {
+  background: var(--accent);
+  color: var(--accent-ink);
+}
+@media (max-width: 860px) {
+  .lp-law-head,
+  .lp-law-foot {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .lp-tl-row {
+    grid-template-columns: minmax(0, 1fr);
+    height: auto;
+    gap: 0.3rem;
+    padding-block: 0.6rem;
+  }
+  .lp-tl-lane {
+    height: 56px;
+  }
+  .lp-tl-months {
+    left: clamp(16px, 2vw, 32px);
   }
 }

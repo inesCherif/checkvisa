@@ -10,6 +10,7 @@ import Lenis from 'lenis';
 import './landing.css';
 import UvLampScene, { type CursorMode, type HoverInfo, type SceneControl } from './UvLampScene';
 import { buildDossier, type DocId } from './dossierTextures';
+import PassportTimeline from './PassportTimeline';
 import { sampleDossier } from '../core/sample/sampleDossier';
 import { runChecks } from '../core/rules/checks';
 import { bundledLibrary, type Library } from '../core/data/library';
@@ -74,7 +75,7 @@ export default function Landing({ lib: libProp, onPickDestination }: Props) {
   const control = useRef<SceneControl | null>(null);
 
   // The sample applicant, checked by the real engine (and its corrected version). Timed: speed is part of the story.
-  const { docs, fixedDocs, findings, ms } = useMemo(() => {
+  const { docs, fixedDocs, ms } = useMemo(() => {
     const day = today();
     const sample = sampleDossier(day);
     const t0 = performance.now();
@@ -82,7 +83,7 @@ export default function Landing({ lib: libProp, onPickDestination }: Props) {
     const ms = Math.max(1, Math.round(performance.now() - t0));
     const fixed = sampleDossier(day, true);
     const fixedFindings = runChecks(fixed.dossier, { trip: fixed.trip, lib, applicationDate: day, rates: DEFAULT_RATES });
-    return { docs: buildDossier(sample, all), fixedDocs: buildDossier(fixed, fixedFindings), findings: all.filter((f) => f.status === 'fail'), ms };
+    return { docs: buildDossier(sample, all), fixedDocs: buildDossier(fixed, fixedFindings), ms };
   }, [lib]);
 
   const [hover, setHover] = useState<HoverInfo | null>(null);
@@ -114,13 +115,11 @@ export default function Landing({ lib: libProp, onPickDestination }: Props) {
     () =>
       lib.facts
         .filter((f) => f.statement && f.statement.length < 95 && f.status === 'verified')
-        .slice(0, 22)
+        .slice(0, 16)
         .map((f) => ({ id: f.id, text: f.statement, where: f.locator })),
     [lib],
   );
 
-  const passportFinding = findings.find((f) => f.id === 'passport.validity');
-  const passportFact = lib.facts.find((f) => f.id === 'passport.validity-after-exit');
 
   // ------------------------------------------------------------------------------ motion
   useEffect(() => {
@@ -252,7 +251,7 @@ export default function Landing({ lib: libProp, onPickDestination }: Props) {
       });
       gsap.utils.toArray<HTMLElement>('.lp-drop').forEach((d, i) => {
         const speed = 0.55 + ((i * 37) % 10) / 18;
-        rainTl.fromTo(d, { yPercent: -400 - ((i * 53) % 300) }, { yPercent: 900 * speed, ease: 'none', duration: 0.62 }, ((i * 13) % 10) / 60);
+        rainTl.fromTo(d, { yPercent: -260 - Math.floor(i / 4) * 230 }, { yPercent: 1000 * speed, ease: 'none', duration: 0.62 }, 0);
       });
       rainTl
         .to('.lp-rain-a', { autoAlpha: 0, y: -60, duration: 0.08 }, 0.5)
@@ -478,7 +477,7 @@ export default function Landing({ lib: libProp, onPickDestination }: Props) {
       <section className="lp-rain" id="how" aria-label="How CheckVisa works">
         <div className="lp-drops" aria-hidden="true">
           {rain.map((r, i) => (
-            <div key={r.id} className="lp-drop" style={{ left: `${38 + ((i * 41) % 56)}%` }}>
+            <div key={r.id} className="lp-drop" style={{ left: `${40 + (i % 4) * 14.5}%` }}>
               {r.text}
               <small>{r.where}</small>
             </div>
@@ -515,46 +514,7 @@ export default function Landing({ lib: libProp, onPickDestination }: Props) {
         </div>
       </section>
 
-      {passportFinding && (
-        <section className="lp-show" aria-labelledby="show-title">
-          <div>
-            <h2 id="show-title" data-split>
-              Every answer quotes the law.
-            </h2>
-            <div data-reveal>
-              <p className="lead">
-                A result is never just a red light. It says what is wrong, how to fix it before you pay the fee, and which article of which regulation
-                says so.
-              </p>
-            </div>
-          </div>
-          <div data-reveal>
-            <article className="lp-card" data-ui>
-              <div className="lp-card-head">
-                <span className="lp-card-mark" aria-hidden="true">
-                  <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
-                    <path d="m6 6 12 12M18 6 6 18" />
-                  </svg>
-                </span>
-                <div>
-                  <h3>{passportFinding.title}</h3>
-                  <p className="detail">{passportFinding.detail}</p>
-                </div>
-              </div>
-              {passportFinding.fix && <p className="fix">{passportFinding.fix}</p>}
-              {passportFact && (
-                <blockquote>
-                  “{passportFact.quote}”<cite>EU Visa Code, {passportFact.locator} · Regulation (EC) No 810/2009</cite>
-                </blockquote>
-              )}
-              <div className="badges">
-                <span>Read on this device · Gemini Nano</span>
-                <span>0 cloud calls</span>
-              </div>
-            </article>
-          </div>
-        </section>
-      )}
+      <PassportTimeline lib={lib} day={today()} />
 
       <section className="lp-proof" aria-labelledby="proof-title">
         <h2 id="proof-title" data-split>
