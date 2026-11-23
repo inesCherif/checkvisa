@@ -1210,3 +1210,16 @@
     left: clamp(16px, 2vw, 32px);
   }
 }
+
+.lp-nav-end {
+  display: flex;
+  align-items: center;
+  gap: clamp(16px, 2vw, 28px);
+}
+.lp-signin {
+  text-decoration: none;
+  color: var(--ink);
+}
+.lp-signin:hover {
+  color: var(--accent);
+}

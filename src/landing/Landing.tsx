@@ -357,9 +357,14 @@ export default function Landing({ lib: libProp, onPickDestination }: Props) {
             <a href="#questions">Questions</a>
           </li>
         </ul>
-        <a href="#/trip" className="lp-btn">
-          Open the app
-        </a>
+        <div className="lp-nav-end">
+          <a href="#/signin" className="lp-signin">
+            Sign in
+          </a>
+          <a href="#/trip" className="lp-btn">
+            Open the app
+          </a>
+        </div>
       </nav>
 
       <header className={`lp-hero cursor-${cursor}`} ref={heroRef}>
