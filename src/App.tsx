@@ -1,6 +1,8 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import HelloHybrid from './ui/HelloHybrid';
-import SourcesPage from './ui/SourcesPage';
+import SourcesPage, { type Origin } from './ui/SourcesPage';
+import AdminPage from './ui/AdminPage';
+import { loadLibraryFromFirestore } from './firebase/library';
 import TripPage from './ui/TripPage';
 import CheckPage from './ui/CheckPage';
 import StatsPage from './ui/StatsPage';
@@ -14,7 +16,7 @@ import { isFirebaseConfigured } from './firebase/config';
 import { loadRemoteConfig } from './firebase/remoteConfig';
 import { setCloudModel } from './core/ai/modelFactory';
 
-type Route = '#/trip' | '#/check' | '#/stats' | '#/sources' | '#/hybrid';
+type Route = '#/trip' | '#/check' | '#/stats' | '#/sources' | '#/hybrid' | '#/admin';
 const NAV: Array<[Route, string]> = [
   ['#/trip', '1 · My trip'],
   ['#/check', '2 · Check my dossier'],
@@ -24,6 +26,7 @@ const NAV: Array<[Route, string]> = [
 ];
 
 function currentRoute(): Route {
+  if (location.hash === '#/admin') return '#/admin'; // maintainer page, not in the menu
   return (NAV.some(([r]) => r === location.hash) ? location.hash : '#/trip') as Route;
 }
 
@@ -41,7 +44,8 @@ function loadTrip(): Trip {
 
 export default function App() {
   const [route, setRoute] = useState<Route>(currentRoute);
-  const [lib] = useState(bundledLibrary);
+  const [lib, setLib] = useState(bundledLibrary);
+  const [origin, setOrigin] = useState<Origin>('bundle');
   const [rates, setRates] = useState(DEFAULT_RATES);
   const [trip, setTripState] = useState<Trip>(loadTrip);
   // Private document facts: kept in memory only, never written to storage or Firestore.
@@ -59,10 +63,21 @@ export default function App() {
   // Exchange rates and the cloud model name come from Remote Config (falls back to defaults).
   useEffect(() => {
     if (!isFirebaseConfigured()) return;
-    loadRemoteConfig(getFirebase().app).then((config) => {
+    const { app, user } = getFirebase();
+    loadRemoteConfig(app).then((config) => {
       setRates(config.rates);
       setCloudModel(config.cloudModel);
     });
+    // Rules come down: prefer the live Firestore dataset (updatable without redeploy), else the bundled copy.
+    user
+      .then(() => loadLibraryFromFirestore(app))
+      .then((live) => {
+        if (live) {
+          setLib(live);
+          setOrigin('firestore');
+        }
+      })
+      .catch((e) => console.warn('[CheckVisa] Using the bundled dataset:', e));
   }, []);
 
   useEffect(() => {
@@ -78,8 +93,9 @@ export default function App() {
     '#/trip': () => <TripPage trip={trip} setTrip={setTrip} lib={lib} rates={rates} />,
     '#/check': () => <CheckPage trip={trip} setTrip={setTrip} dossier={dossier} setDossier={setDossier} lib={lib} rates={rates} />,
     '#/stats': () => <StatsPage lib={lib} />,
-    '#/sources': () => <SourcesPage />,
+    '#/sources': () => <SourcesPage lib={lib} origin={origin} />,
     '#/hybrid': () => <HelloHybrid />,
+    '#/admin': () => <AdminPage />,
   };
 
   return (

@@ -1,33 +1,13 @@
-import { useEffect, useMemo, useState } from 'react';
-import { bundledLibrary, type Library } from '../core/data/library';
+import { useMemo, useState } from 'react';
+import type { Library } from '../core/data/library';
 import type { Authority, Source } from '../core/data/schema';
-import { isFirebaseConfigured } from '../firebase/config';
-import { getFirebase } from '../firebase/init';
-import { loadLibraryFromFirestore } from '../firebase/library';
 import { AUTHORITY } from './shared';
 
 
-type Origin = 'bundle' | 'firestore';
+export type Origin = 'bundle' | 'firestore';
 
-export default function SourcesPage() {
-  const [lib, setLib] = useState<Library>(() => bundledLibrary());
-  const [origin, setOrigin] = useState<Origin>('bundle');
+export default function SourcesPage({ lib, origin }: { lib: Library; origin: Origin }) {
   const [filter, setFilter] = useState<Authority | 'all'>('all');
-
-  // Prefer the live Firestore copy (updatable without redeploy); fall back to the bundled dataset.
-  useEffect(() => {
-    if (!isFirebaseConfigured()) return;
-    const { app, user } = getFirebase();
-    user
-      .then(() => loadLibraryFromFirestore(app))
-      .then((live) => {
-        if (live) {
-          setLib(live);
-          setOrigin('firestore');
-        }
-      })
-      .catch(() => undefined);
-  }, []);
 
   const shown = useMemo(
     () => lib.sources.filter((s) => filter === 'all' || s.authority === filter),

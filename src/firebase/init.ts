@@ -48,7 +48,11 @@ export function getFirebase(): FirebaseServices {
   // Gemini Developer API backend = free tier on the Spark plan.
   const ai = getAI(app, { backend: new GoogleAIBackend() });
 
-  const user = signInAnonymously(getAuth(app)).then((credential) => credential.user);
+  // Keep an existing session (e.g. the maintainer's Google sign-in); otherwise sign in anonymously.
+  const auth = getAuth(app);
+  const user = auth
+    .authStateReady()
+    .then(() => auth.currentUser ?? signInAnonymously(auth).then((credential) => credential.user));
 
   services = { app, appCheck, ai, user };
   return services;
