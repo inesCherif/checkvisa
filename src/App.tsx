@@ -1,4 +1,4 @@
-import { useEffect, useState, type ReactNode } from 'react';
+import { lazy, Suspense, useEffect, useState, type ReactNode } from 'react';
 import HelloHybrid from './ui/HelloHybrid';
 import SourcesPage, { type Origin } from './ui/SourcesPage';
 import AdminPage from './ui/AdminPage';
@@ -16,7 +16,9 @@ import { isFirebaseConfigured } from './firebase/config';
 import { loadRemoteConfig } from './firebase/remoteConfig';
 import { setCloudModel } from './core/ai/modelFactory';
 
-type Route = '#/trip' | '#/check' | '#/stats' | '#/sources' | '#/hybrid' | '#/admin';
+const Landing = lazy(() => import('./landing/Landing'));
+
+type Route = '#/' | '#/trip' | '#/check' | '#/stats' | '#/sources' | '#/hybrid' | '#/admin';
 const NAV: Array<[Route, string]> = [
   ['#/trip', '1 · My trip'],
   ['#/check', '2 · Check my dossier'],
@@ -27,7 +29,7 @@ const NAV: Array<[Route, string]> = [
 
 function currentRoute(): Route {
   if (location.hash === '#/admin') return '#/admin'; // maintainer page, not in the menu
-  return (NAV.some(([r]) => r === location.hash) ? location.hash : '#/trip') as Route;
+  return (NAV.some(([r]) => r === location.hash) ? location.hash : '#/') as Route;
 }
 
 const TRIP_KEY = 'checkvisa.trip.v1';
@@ -96,13 +98,22 @@ export default function App() {
     '#/sources': () => <SourcesPage lib={lib} origin={origin} />,
     '#/hybrid': () => <HelloHybrid />,
     '#/admin': () => <AdminPage />,
+    '#/': () => null,
   };
+
+  if (route === '#/') {
+    return (
+      <Suspense fallback={<div style={{ minHeight: '100vh', background: '#0f1f10' }} />}>
+        <Landing lib={lib} onPickDestination={(destination) => { setTrip({ ...trip, destination }); location.hash = '#/trip'; }} />
+      </Suspense>
+    );
+  }
 
   return (
     <div className="min-h-screen">
       <header className="sticky top-0 z-10 border-b border-gray-200 bg-white/90 backdrop-blur">
         <div className="mx-auto flex max-w-4xl flex-wrap items-center justify-between gap-3 px-4 py-3">
-          <a href="#/trip" className="block">
+          <a href="#/" className="block">
             <p className="text-lg font-extrabold tracking-tight text-gray-900">
               Check<span className="text-emerald-700">Visa</span>
             </p>
