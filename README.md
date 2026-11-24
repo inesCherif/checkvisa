@@ -9,6 +9,7 @@ Chrome) reads private documents, and the cloud model (Gemini) only gets public r
 > **Rules come down, documents never go up.**
 
 - Live app: **https://checkvisa-dc172.web.app** (free, no account)
+- Demo video (2:41): **https://youtu.be/KG7cXqiGfRY**
 - Built for the Google Firebase **#BuildHybridAI 2026** hackathon. Platform: Web / Chrome.
 
 ## Why
