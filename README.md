@@ -12,6 +12,26 @@ Chrome) reads private documents, and the cloud model (Gemini) only gets public r
 - Demo video (2:41): **https://youtu.be/KG7cXqiGfRY**
 - Built for the Google Firebase **#BuildHybridAI 2026** hackathon. Platform: Web / Chrome.
 
+| Landing: the UV lamp reveals what gets visas refused | Check my dossier: Gemini Nano reads the PDFs on the laptop |
+|---|---|
+| ![CheckVisa landing page](docs/screenshots/landing.jpg) | ![Dossier check results with legal sources](docs/screenshots/check.jpg) |
+| **Privacy ledger: every AI call and where it ran** | **AI status: one SDK, on-device and cloud** |
+| ![Privacy ledger](docs/screenshots/ledger.jpg) | ![AI status page](docs/screenshots/ai-status.jpg) |
+
+## For judges: test it in 2 minutes
+
+No account and no setup. Use Chrome on a desktop.
+
+1. Open **https://checkvisa-dc172.web.app** → **Check my dossier** → **Try the sample dossier**.
+2. **With Gemini Nano** (Chrome 148+, see [Turning on Gemini Nano](#turning-on-gemini-nano-in-chrome)): the 4 planted
+   mistakes are found on the device. Each answer carries an *On this device · Gemini Nano* badge, and the
+   **Privacy ledger** shows zero cloud calls for the documents.
+3. **Without Gemini Nano** (or with **AI status → Force cloud** switched on): the trip checklist, explanations and
+   cover letter use cloud Gemini (*Cloud · Gemini* badge). Reading documents asks for your consent before anything
+   is sent, and the ledger shows the exact text that left the device.
+4. **My trip** → pick a country and dates to get the checklist, fee and money to show. **Statistics** and
+   **Sources** show the official data behind every rule.
+
 ## Why
 
 - In 2025, **188,579** Schengen short-stay applications were lodged in Tunisia and **19.6%** were not issued
@@ -81,7 +101,7 @@ Browser (React + Vite, Firebase Hosting)
  │    cloud:     Gemini Developer API (gemini-3.5-flash-lite, set by Remote Config)
  └─ Firebase
       App Check (reCAPTCHA Enterprise), enforced for AI Logic and Firestore
-      Auth: anonymous for visitors, Google for the maintainer
+      Auth: anonymous for visitors; optional Google or email sign-in (trip answers + ticks only)
       Firestore: public reference data only (sources, facts, statistics); never user data
       Remote Config: TND exchange rates, cloud model name
 ```
@@ -104,7 +124,7 @@ on-device inference.
 
 1. Create a Firebase project and add a **Web app**.
 2. **AI Logic** → Get started → **Gemini Developer API** (free tier).
-3. **Authentication** → enable **Anonymous** (and **Google** if you want the maintainer page).
+3. **Authentication** → enable **Anonymous**, **Google** and **Email/Password** (optional accounts; Google also signs in the maintainer).
 4. **Firestore** → create a database (production mode) and deploy [firestore.rules](firestore.rules) (put your UID in `isMaintainer()`).
 5. Create a reCAPTCHA key (Google Cloud **Fraud Defense / reCAPTCHA Enterprise**, website, score-based) for your
    hosting domains and `localhost`. **App Check** → Apps → register the web app with **Fraud Defense** and that
