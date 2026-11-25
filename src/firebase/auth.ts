@@ -12,6 +12,7 @@ import {
   onAuthStateChanged,
   sendPasswordResetEmail,
   signInAnonymously,
+  signInWithCredential,
   signInWithEmailAndPassword,
   signInWithPopup,
   signOut,
@@ -38,7 +39,12 @@ export async function signInWithGoogle(): Promise<User> {
       return (await linkWithPopup(current, provider)).user;
     } catch (e) {
       // This Google account already has a CheckVisa account: just sign in to it.
+      // Reuse the credential from the error — a second popup here is no longer
+      // tied to the user's click, so the browser blocks it (auth/popup-blocked).
       if (code(e) !== 'auth/credential-already-in-use') throw e;
+      const cred = GoogleAuthProvider.credentialFromError(e as Parameters<typeof GoogleAuthProvider.credentialFromError>[0]);
+      if (cred) return (await signInWithCredential(a, cred)).user;
+      throw e;
     }
   }
   return (await signInWithPopup(a, provider)).user;
@@ -86,6 +92,8 @@ export function authMessage(e: unknown): string {
     case 'auth/popup-closed-by-user':
     case 'auth/cancelled-popup-request':
       return 'The Google window was closed before signing in.';
+    case 'auth/popup-blocked':
+      return 'Your browser blocked the Google window. Allow pop-ups for this site and try again.';
     case 'auth/operation-not-allowed':
       return 'This sign-in method is not switched on yet.';
     case 'auth/too-many-requests':
